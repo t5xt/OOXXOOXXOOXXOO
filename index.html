@@ -13,7 +13,7 @@
 
   <style>
     :root {
-      --fg: rgba(255,235,238,0.95);
+      --fg: rgba(255,255,255,0.9);
       --muted: rgba(255,255,255,0.45);
     }
 
@@ -52,27 +52,9 @@
       letter-spacing: 0.4px;
       line-height: 1.4;
       text-shadow:
-        0 0 12px rgba(255,120,135,0.65),
-        0 0 30px rgba(255,90,110,0.45),
-        0 0 70px rgba(255,60,90,0.25);
-      animation:
-        fadeIn 1.4s ease forwards,
-        glow 3.6s ease-in-out infinite;
-    }
-
-    @keyframes glow {
-      0%, 100% {
-        text-shadow:
-          0 0 10px rgba(255,120,135,0.55),
-          0 0 28px rgba(255,90,110,0.4),
-          0 0 65px rgba(255,60,90,0.22);
-      }
-      50% {
-        text-shadow:
-          0 0 16px rgba(255,150,165,0.85),
-          0 0 42px rgba(255,110,130,0.6),
-          0 0 100px rgba(255,80,110,0.4);
-      }
+        0 0 10px rgba(255,255,255,0.25),
+        0 0 30px rgba(255,255,255,0.15);
+      animation: fadeIn 1.4s ease forwards;
     }
 
     @keyframes fadeIn {
