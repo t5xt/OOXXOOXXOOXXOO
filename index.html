@@ -15,10 +15,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: none; /* hide default cursor */
     }
 
-    /* PARTICLES */
+    /* PARTICLES BACKGROUND */
     #particles {
       position: fixed;
       inset: 0;
@@ -26,7 +25,7 @@
       pointer-events: none;
     }
 
-    /* TEXT */
+    /* GLOWING TEXT */
     .text {
       color: #fff;
       font-family: Helvetica, Arial, sans-serif;
@@ -35,25 +34,12 @@
       letter-spacing: 0.6px;
       position: relative;
       z-index: 1;
+
+      /* glow */
       text-shadow:
         0 0 8px rgba(255,255,255,0.6),
         0 0 16px rgba(255,255,255,0.4),
         0 0 32px rgba(255,255,255,0.2);
-    }
-
-    /* CUSTOM CURSOR */
-    .cursor {
-      position: fixed;
-      width: 8px;
-      height: 8px;
-      background: white;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      box-shadow:
-        0 0 8px rgba(255,255,255,0.8),
-        0 0 16px rgba(255,255,255,0.6);
-      transform: translate(-50%, -50%);
     }
   </style>
 </head>
@@ -63,12 +49,10 @@
 
   <div class="text">tell me what is a heart</div>
 
-  <div class="cursor"></div>
-
   <audio id="bgm" src="song.mp3" loop></audio>
 
   <script>
-    /* ===== AUDIO FADE ===== */
+    /* ===== AUDIO FADE IN ===== */
     const audio = document.getElementById("bgm");
     audio.volume = 0;
 
@@ -90,7 +74,7 @@
 
     window.addEventListener("load", fadeInAudio);
 
-    /* ===== PARTICLES ===== */
+    /* ===== FALLING + DRIFTING PARTICLES ===== */
     const canvas = document.getElementById("particles");
     const ctx = canvas.getContext("2d");
 
@@ -131,21 +115,15 @@
           p.y = -5;
           p.x = Math.random() * w;
         }
+
         if (p.x > w) p.x = 0;
         if (p.x < 0) p.x = w;
       }
 
       requestAnimationFrame(draw);
     }
+
     draw();
-
-    /* ===== CUSTOM CURSOR MOVE ===== */
-    const cursor = document.querySelector(".cursor");
-
-    window.addEventListener("mousemove", e => {
-      cursor.style.left = e.clientX + "px";
-      cursor.style.top = e.clientY + "px";
-    });
   </script>
 </body>
 </html>
