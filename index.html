@@ -90,41 +90,6 @@
 
     document.addEventListener("click", startMusic, { once: true });
 
-    /* ===== ANIMATED LURKER COUNTER (lurki.ng) ===== */
-    const lurkersEl = document.getElementById("lurkers");
-
-    const NAMESPACE = "lurki-ng";
-    const KEY = "visits";
-
-    function animateCount(target) {
-      const duration = 1200;
-      const start = performance.now();
-
-      function easeOut(t) {
-        return 1 - Math.pow(1 - t, 3);
-      }
-
-      function frame(now) {
-        const progress = Math.min((now - start) / duration, 1);
-        const value = Math.floor(easeOut(progress) * target);
-
-        lurkersEl.textContent =
-          `${value.toLocaleString()} people have been lurking around here`;
-
-        if (progress < 1) requestAnimationFrame(frame);
-      }
-
-      requestAnimationFrame(frame);
-    }
-
-    fetch(`https://api.countapi.xyz/hit/${NAMESPACE}/${KEY}`)
-      .then(res => res.json())
-      .then(data => animateCount(data.value))
-      .catch(err => {
-        console.error("Counter failed:", err);
-        lurkersEl.textContent = "someone has been lurking around here";
-      });
-
     /* ===== SMOOTH FLOATING PARTICLES ===== */
     const canvas = document.getElementById("particles");
     const ctx = canvas.getContext("2d");
