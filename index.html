@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>i'll always be lurking somewhere</title>
+  <title>lurki.ng</title>
 
   <link rel="icon" href="/favicon.ico">
 
@@ -90,11 +90,11 @@
 
     document.addEventListener("click", startMusic, { once: true });
 
-    /* ===== ANIMATED LURKER COUNTER ===== */
+    /* ===== ANIMATED LURKER COUNTER (lurki.ng) ===== */
     const lurkersEl = document.getElementById("lurkers");
 
-    const NAMESPACE = "your-site-name-here"; // CHANGE THIS
-    const KEY = "lurkers";
+    const NAMESPACE = "lurki-ng";
+    const KEY = "visits";
 
     function animateCount(target) {
       const duration = 1200;
@@ -107,6 +107,7 @@
       function frame(now) {
         const progress = Math.min((now - start) / duration, 1);
         const value = Math.floor(easeOut(progress) * target);
+
         lurkersEl.textContent =
           `${value.toLocaleString()} people have been lurking around here`;
 
@@ -119,7 +120,8 @@
     fetch(`https://api.countapi.xyz/hit/${NAMESPACE}/${KEY}`)
       .then(res => res.json())
       .then(data => animateCount(data.value))
-      .catch(() => {
+      .catch(err => {
+        console.error("Counter failed:", err);
         lurkersEl.textContent = "someone has been lurking around here";
       });
 
