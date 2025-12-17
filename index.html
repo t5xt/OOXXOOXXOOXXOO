@@ -26,5 +26,30 @@
 <body>
   <div class="text">either way i'm gonna take cocaine and 
     kill myself</div>
+<audio id="bgm" src="song.mp3" loop></audio>
+
+<script>
+  const audio = document.getElementById("bgm");
+  audio.volume = 0;
+
+  function fadeInAudio() {
+    let volume = 0;
+    audio.play().catch(() => {
+      // mobile fallback: wait for user interaction
+      document.addEventListener("click", () => audio.play(), { once: true });
+    });
+
+    const fade = setInterval(() => {
+      if (volume < 0.8) {
+        volume += 0.02;
+        audio.volume = Math.min(volume, 1);
+      } else {
+        clearInterval(fade);
+      }
+    }, 100);
+  }
+
+  window.addEventListener("load", fadeInAudio);
+</script>
 </body>
 </html>
