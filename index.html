@@ -47,7 +47,7 @@
         0 0 120px rgba(255,255,255,0.22);
 
       opacity: 0;
-      animation: fadeIn 1.6s ease forwards;
+      animation: fadeInText 1.6s ease forwards;
     }
 
     .line {
@@ -70,8 +70,8 @@
       font-size: 11px;
 
       opacity: 0;
-      animation: fadeIn 1.6s ease forwards;
-      animation-delay: 1.6s; /* 👈 perfectly synced */
+      animation: fadeInPlayer 0.7s ease forwards;
+      animation-delay: 1.6s; /* starts right after text */
     }
 
     .cover {
@@ -133,9 +133,14 @@
       width: 50px;
     }
 
-    /* ✨ Shared animation */
-    @keyframes fadeIn {
+    /* ✨ Animations */
+    @keyframes fadeInText {
       from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    @keyframes fadeInPlayer {
+      from { opacity: 0; transform: translateY(6px); }
       to   { opacity: 1; transform: none; }
     }
   </style>
