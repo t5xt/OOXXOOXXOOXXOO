@@ -69,75 +69,83 @@
       }
     }
 
-    /* 🎧 Music Player */
+    /* 🎧 Compact centered music player */
     .player {
       position: fixed;
-      bottom: 20px;
-      left: 20px;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding: 12px 16px;
+      gap: 10px;
+      padding: 8px 12px;
+
       background: rgba(0,0,0,0.6);
       border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 14px;
+      border-radius: 12px;
       backdrop-filter: blur(10px);
+
       color: rgba(255,255,255,0.9);
-      font-size: 13px;
+      font-size: 11px;
     }
 
     .cover {
-      width: 46px;
-      height: 46px;
-      border-radius: 6px;
+      width: 32px;
+      height: 32px;
+      border-radius: 5px;
       object-fit: cover;
-      box-shadow: 0 0 10px rgba(0,0,0,0.6);
     }
 
     .player-info {
-      min-width: 140px;
+      min-width: 110px;
     }
 
     .track {
       font-weight: 500;
+      font-size: 11px;
     }
 
     .artist {
-      font-size: 11px;
+      font-size: 10px;
       color: rgba(255,255,255,0.5);
     }
 
     .player-controls {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .player-controls button {
       background: none;
       border: none;
       color: white;
-      font-size: 14px;
+      font-size: 12px;
       cursor: pointer;
+      padding: 0;
     }
 
     #progress {
-      width: 120px;
+      width: 80px;
     }
 
     #time {
-      font-size: 11px;
+      font-size: 10px;
       color: rgba(255,255,255,0.5);
+      min-width: 32px;
+      text-align: right;
     }
 
     .player-volume {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
+      font-size: 10px;
     }
 
     .player-volume input {
-      width: 70px;
+      width: 50px;
     }
   </style>
 </head>
@@ -146,10 +154,7 @@
 
   <div class="center">
     <div class="title">
-      the loser club exists, and i'm a part of it. i just hate my fucking miserable life.
-      i just want everything to fucking end. i can't fucking do this anymore.
-      every fucking day, every fucking hour, every fucking minute, I start to hate
-      myself more n more
+      the loser club exists
     </div>
   </div>
 
@@ -198,6 +203,7 @@
     audio.addEventListener("timeupdate", () => {
       if (!audio.duration) return;
       progress.value = (audio.currentTime / audio.duration) * 100;
+
       const m = Math.floor(audio.currentTime / 60);
       const s = Math.floor(audio.currentTime % 60).toString().padStart(2, "0");
       timeEl.textContent = `${m}:${s}`;
