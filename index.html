@@ -21,7 +21,6 @@
       height: 100%;
       background: #000;
       overflow: hidden;
-      cursor: none; /* 🔒 hide cursor */
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
                    Helvetica, Arial, sans-serif;
     }
@@ -38,14 +37,12 @@
 
     .title {
       color: var(--fg);
-      font-size: clamp(20px, 3vw, 28px);
+      font-size: clamp(22px, 3vw, 30px);
       font-weight: 400;
       letter-spacing: 0.5px;
       line-height: 1.5;
-
       max-width: min(90vw, 800px);
       margin: 0 auto;
-      word-wrap: break-word;
 
       text-shadow:
         0 0 4px   rgba(255,255,255,0.45),
@@ -56,7 +53,6 @@
         0 0 360px rgba(255,255,255,0.12);
 
       animation: fadeIn 1.6s ease forwards;
-      filter: blur(0.12px);
     }
 
     @keyframes fadeIn {
@@ -64,7 +60,6 @@
       to   { opacity: 1; transform: none; }
     }
 
-    /* 📱 Mobile-only tweaks */
     @media (max-width: 600px) {
       .title {
         font-size: 18px;
@@ -72,6 +67,77 @@
         letter-spacing: 0.3px;
         max-width: 92vw;
       }
+    }
+
+    /* 🎧 Music Player */
+    .player {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      backdrop-filter: blur(10px);
+      color: rgba(255,255,255,0.9);
+      font-size: 13px;
+    }
+
+    .cover {
+      width: 46px;
+      height: 46px;
+      border-radius: 6px;
+      object-fit: cover;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
+    }
+
+    .player-info {
+      min-width: 140px;
+    }
+
+    .track {
+      font-weight: 500;
+    }
+
+    .artist {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .player-controls button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    #progress {
+      width: 120px;
+    }
+
+    #time {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .player-volume {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .player-volume input {
+      width: 70px;
     }
   </style>
 </head>
@@ -81,34 +147,71 @@
   <div class="center">
     <div class="title">
       the loser club exists, and i'm a part of it. i just hate my fucking miserable life.
-i just want everything to fucking end. i can't fucking do this anymore.
-every fucking day, every fucking hour, every fucking minute, i start to hate
-myself more n more
+      i just want everything to fucking end. i can't fucking do this anymore.
+      every fucking day, every fucking hour, every fucking minute, I start to hate
+      myself more n more
     </div>
   </div>
 
-  <audio id="bgm" src="song.mp3" loop preload="auto"></audio>
+  <!-- 🎧 Music Player -->
+  <div class="player">
+    <img src="cover.png" alt="album cover" class="cover">
+
+    <div class="player-info">
+      <div class="track">stab at it</div>
+      <div class="artist">imsg, morgue</div>
+    </div>
+
+    <div class="player-controls">
+      <button id="playPause">▶</button>
+      <input id="progress" type="range" min="0" max="100" value="0">
+      <span id="time">0:00</span>
+    </div>
+
+    <div class="player-volume">
+      🔊
+      <input id="volume" type="range" min="0" max="1" step="0.01" value="0.75">
+    </div>
+  </div>
+
+  <audio id="bgm" src="song.mp3" preload="auto"></audio>
 
   <script>
     const audio = document.getElementById("bgm");
-    audio.volume = 0;
-    let started = false;
+    const playPause = document.getElementById("playPause");
+    const progress = document.getElementById("progress");
+    const timeEl = document.getElementById("time");
+    const volume = document.getElementById("volume");
 
-    function startMusic() {
-      if (started) return;
-      started = true;
+    audio.volume = 0.75;
 
-      audio.play().then(() => {
-        let v = 0;
-        const fade = setInterval(() => {
-          v += 0.015;
-          audio.volume = Math.min(v, 0.75);
-          if (v >= 0.75) clearInterval(fade);
-        }, 80);
-      }).catch(() => {});
-    }
+    playPause.addEventListener("click", () => {
+      if (audio.paused) {
+        audio.play();
+        playPause.textContent = "⏸";
+      } else {
+        audio.pause();
+        playPause.textContent = "▶";
+      }
+    });
 
-    document.addEventListener("click", startMusic, { once: true });
+    audio.addEventListener("timeupdate", () => {
+      if (!audio.duration) return;
+      progress.value = (audio.currentTime / audio.duration) * 100;
+      const m = Math.floor(audio.currentTime / 60);
+      const s = Math.floor(audio.currentTime % 60).toString().padStart(2, "0");
+      timeEl.textContent = `${m}:${s}`;
+    });
+
+    progress.addEventListener("input", () => {
+      if (audio.duration) {
+        audio.currentTime = (progress.value / 100) * audio.duration;
+      }
+    });
+
+    volume.addEventListener("input", () => {
+      audio.volume = volume.value;
+    });
   </script>
 
 </body>
