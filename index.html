@@ -29,16 +29,16 @@
       justify-content: center;
       text-align: center;
       padding: 20px;
-      gap: 42px; /* 👈 more space before player */
+      gap: 42px;
     }
 
+    /* 🖤 Text */
     .title {
       color: var(--fg);
       font-size: clamp(22px, 3vw, 30px);
       font-weight: 400;
       letter-spacing: 0.5px;
       line-height: 1.6;
-      max-width: min(90vw, 800px);
 
       text-shadow:
         0 0 4px   rgba(255,255,255,0.45),
@@ -46,19 +46,15 @@
         0 0 55px  rgba(255,255,255,0.28),
         0 0 120px rgba(255,255,255,0.22);
 
-      animation: fadeIn 1.6s ease forwards;
+      opacity: 0;
+      animation: fadeInText 1.6s ease forwards;
     }
 
     .line {
       display: block;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: none; }
-    }
-
-    /* 🎧 Music player */
+    /* 🎧 Player */
     .player {
       display: flex;
       align-items: center;
@@ -72,6 +68,10 @@
 
       color: rgba(255,255,255,0.9);
       font-size: 11px;
+
+      opacity: 0;
+      animation: fadeInPlayer 1.2s ease forwards;
+      animation-delay: 1.9s; /* 👈 fades in AFTER text */
     }
 
     .cover {
@@ -132,20 +132,29 @@
     .player-volume input {
       width: 50px;
     }
+
+    /* ✨ Animations */
+    @keyframes fadeInText {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    @keyframes fadeInPlayer {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: none; }
+    }
   </style>
 </head>
 
 <body>
 
   <div class="center">
-    <!-- 🖤 3 stacked lines -->
     <div class="title">
       <span class="line">let me get a stab at it</span>
       <span class="line">let me get a stab at it</span>
       <span class="line">let me get a stab at it</span>
     </div>
 
-    <!-- 🎧 Music Player -->
     <div class="player">
       <img src="cover.png" alt="album cover" class="cover">
 
