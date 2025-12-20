@@ -1,189 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>emre</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>emre</title>
 
-  <style>
-    :root { --fg: rgba(255,255,255,0.92); }
+<style>
+:root { --fg: rgba(255,255,255,0.92); }
 
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-                   Helvetica, Arial, sans-serif;
-      overflow: hidden;
-    }
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Helvetica, Arial, sans-serif;
+  overflow: hidden;
+}
 
-    .center {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, #fff, transparent),
+    radial-gradient(1px 1px at 30% 80%, #fff, transparent),
+    radial-gradient(1px 1px at 50% 40%, #fff, transparent),
+    radial-gradient(1px 1px at 70% 60%, #fff, transparent),
+    radial-gradient(1px 1px at 90% 30%, #fff, transparent);
+  opacity: 0.4;
+  pointer-events: none;
+}
 
-    .card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 18px;
-      padding: 28px 26px;
-      background: rgba(0,0,0,0.65);
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 18px;
-      backdrop-filter: blur(12px);
-    }
+.center {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    .pfp {
-      width: 86px;
-      height: 86px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 28px 26px;
+  background: rgba(0,0,0,0.65);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 18px;
+  backdrop-filter: blur(12px);
+}
 
-    .name {
-      color: var(--fg);
-      font-size: 26px;
-    }
+.pfp {
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
-    .bio {
-      font-size: 13px;
-      color: rgba(255,255,255,0.7);
-      max-width: 260px;
-      min-height: 18px;
-      text-align: center;
-    }
+.name {
+  color: var(--fg);
+  font-size: 26px;
+}
 
-    .player {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      background: rgba(0,0,0,0.6);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 12px;
-      font-size: 11px;
-      color: rgba(255,255,255,0.9);
-    }
+.bio {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  max-width: 260px;
+  min-height: 18px;
+  text-align: center;
+}
 
-    .cover {
-      width: 36px;
-      height: 36px;
-      border-radius: 6px;
-      object-fit: cover;
-    }
+.player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.9);
+}
 
-    .info { min-width: 120px; text-align: left; }
-    .track { font-weight: 500; }
-    .artist { font-size: 10px; color: rgba(255,255,255,0.5); }
+.cover {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  object-fit: cover;
+}
 
-    .controls {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+.info { min-width: 120px; text-align: left; }
+.track { font-weight: 500; }
+.artist { font-size: 10px; color: rgba(255,255,255,0.5); }
 
-    #progress { width: 80px; }
-    #time {
-      font-size: 10px;
-      min-width: 32px;
-      text-align: right;
-      color: rgba(255,255,255,0.5);
-    }
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-    .volume input { width: 50px; }
-  </style>
+#progress { width: 80px; }
+#time {
+  font-size: 10px;
+  min-width: 32px;
+  text-align: right;
+  color: rgba(255,255,255,0.5);
+}
+
+.volume input { width: 50px; }
+</style>
 </head>
 
 <body>
-  <div class="center">
-    <div class="card">
 
-      <!-- MUST EXIST EXACTLY AS NAMED -->
-      <img src="profile.png" class="pfp" alt="profile" />
+<div class="center">
+  <div class="card">
+    <img src="profile.png" class="pfp" alt="pfp">
 
-      <div class="name">emre</div>
-      <div class="bio" id="bio"></div>
+    <div class="name">emre</div>
+    <div class="bio" id="bio"></div>
 
-      <div class="player">
-        <img src="cvr.png" class="cover" alt="cover" />
+    <div class="player">
+      <img src="cvr.png" class="cover" alt="cover">
 
-        <div class="info">
-          <div class="track">trapspot</div>
-          <div class="artist">yuke, jaydes</div>
-        </div>
+      <div class="info">
+        <div class="track">trapspot</div>
+        <div class="artist">yuke, jaydes</div>
+      </div>
 
-        <div class="controls">
-          <button id="play">▶</button>
-          <input id="progress" type="range" min="0" max="100" value="0" />
-          <span id="time">0:00</span>
-        </div>
+      <div class="controls">
+        <button id="play">▶</button>
+        <input id="progress" type="range" min="0" max="100" value="0">
+        <span id="time">0:00</span>
+      </div>
 
-        <div class="volume">
-          🔊
-          <input id="volume" type="range" min="0" max="1" step="0.01" value="0.75" />
-        </div>
+      <div class="volume">
+        🔊
+        <input id="volume" type="range" min="0" max="1" step="0.01" value="0.75">
       </div>
     </div>
   </div>
+</div>
 
-  <!-- WAV FILE -->
-  <audio id="audio" src="profile.wav"></audio>
+<audio id="audio" src="profile.wav"></audio>
 
-  <script>
-    /* BIO TYPEWRITER */
-    const bioText = "smoking to my songs, she don't really wanna die though";
-    const bioEl = document.getElementById("bio");
-    let i = 0;
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const text = "smoking to my songs, she don't really wanna die though";
+  const bio = document.getElementById("bio");
+  let i = 0;
 
-    const bioTimer = setInterval(() => {
-      bioEl.textContent += bioText[i++];
-      if (i >= bioText.length) clearInterval(bioTimer);
+  setTimeout(() => {
+    const t = setInterval(() => {
+      bio.textContent += text[i++];
+      if (i >= text.length) clearInterval(t);
     }, 45);
+  }, 500);
 
-    /* PLAYER */
-    const audio = document.getElementById("audio");
-    const play = document.getElementById("play");
-    const progress = document.getElementById("progress");
-    const time = document.getElementById("time");
-    const volume = document.getElementById("volume");
+  const audio = document.getElementById("audio");
+  const play = document.getElementById("play");
+  const progress = document.getElementById("progress");
+  const time = document.getElementById("time");
+  const volume = document.getElementById("volume");
 
-    audio.volume = 0.75;
+  audio.volume = 0.75;
 
-    play.onclick = () => {
-      if (audio.paused) {
-        audio.play();
-        play.textContent = "⏸";
-      } else {
-        audio.pause();
-        play.textContent = "▶";
-      }
-    };
+  play.onclick = () => {
+    if (audio.paused) {
+      audio.play();
+      play.textContent = "⏸";
+    } else {
+      audio.pause();
+      play.textContent = "▶";
+    }
+  };
 
-    audio.addEventListener("loadedmetadata", () => {
-      progress.value = 0;
-      time.textContent = "0:00";
-    });
+  audio.ontimeupdate = () => {
+    if (!audio.duration) return;
+    progress.value = (audio.currentTime / audio.duration) * 100;
+    const m = Math.floor(audio.currentTime / 60);
+    const s = Math.floor(audio.currentTime % 60).toString().padStart(2,"0");
+    time.textContent = `${m}:${s}`;
+  };
 
-    audio.addEventListener("timeupdate", () => {
-      if (!audio.duration) return;
-      progress.value = (audio.currentTime / audio.duration) * 100;
-      const m = Math.floor(audio.currentTime / 60);
-      const s = Math.floor(audio.currentTime % 60).toString().padStart(2, "0");
-      time.textContent = `${m}:${s}`;
-    });
+  progress.oninput = () => {
+    if (audio.duration) {
+      audio.currentTime = (progress.value / 100) * audio.duration;
+    }
+  };
 
-    progress.oninput = () => {
-      if (audio.duration) {
-        audio.currentTime = (progress.value / 100) * audio.duration;
-      }
-    };
+  volume.oninput = () => audio.volume = volume.value;
+});
+</script>
 
-    volume.oninput = () => audio.volume = volume.value;
-  </script>
 </body>
 </html>
