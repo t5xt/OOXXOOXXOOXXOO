@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+# Fixed index.html with correct /public/e asset paths
+
+html = """<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,9 +8,7 @@
   <title>emre</title>
 
   <style>
-    :root {
-      --fg: rgba(255,255,255,0.92);
-    }
+    :root { --fg: rgba(255,255,255,0.92); }
 
     html, body {
       margin: 0;
@@ -20,7 +20,6 @@
       overflow: hidden;
     }
 
-    /* star background */
     body::before {
       content: "";
       position: fixed;
@@ -49,15 +48,10 @@
       align-items: center;
       gap: 18px;
       padding: 28px 26px;
-
       background: rgba(0,0,0,0.65);
       border: 1px solid rgba(255,255,255,0.18);
       border-radius: 18px;
       backdrop-filter: blur(12px);
-
-      box-shadow:
-        0 0 12px rgba(255,255,255,0.18),
-        0 0 45px rgba(255,255,255,0.12);
     }
 
     .pfp {
@@ -70,7 +64,6 @@
     .name {
       color: var(--fg);
       font-size: 26px;
-      letter-spacing: 0.6px;
     }
 
     .bio {
@@ -99,11 +92,7 @@
       object-fit: cover;
     }
 
-    .info {
-      min-width: 120px;
-      text-align: left;
-    }
-
+    .info { min-width: 120px; text-align: left; }
     .track { font-weight: 500; }
     .artist { font-size: 10px; color: rgba(255,255,255,0.5); }
 
@@ -128,12 +117,12 @@
 <body>
   <div class="center">
     <div class="card">
-      <img src="profile.png" class="pfp" alt="profile" />
+      <img src="/public/e/profile.png" class="pfp" alt="profile" />
       <div class="name">emre</div>
       <div class="bio" id="bio"></div>
 
       <div class="player">
-        <img src="cvr.png" class="cover" alt="cover" />
+        <img src="/public/e/cvr.png" class="cover" alt="cover" />
 
         <div class="info">
           <div class="track">trapspot</div>
@@ -154,10 +143,9 @@
     </div>
   </div>
 
-  <audio id="audio" src="profile.mp3"></audio>
+  <audio id="audio" src="/public/e/profile.mp3"></audio>
 
   <script>
-    // bio typing
     const text = "smoking to my songs, she don't really wanna die though";
     const bio = document.getElementById("bio");
     let i = 0;
@@ -168,7 +156,6 @@
       }, 45);
     }, 500);
 
-    // player
     const audio = document.getElementById("audio");
     const play = document.getElementById("play");
     const progress = document.getElementById("progress");
@@ -205,3 +192,10 @@
   </script>
 </body>
 </html>
+"""
+
+path = "/mnt/data/index.html"
+with open(path, "w") as f:
+    f.write(html)
+
+path
