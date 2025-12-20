@@ -1,1 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>emre</title>
+
+  <style>
+    :root {
+      --fg: rgba(255,255,255,0.92);
+    }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   Helvetica, Arial, sans-serif;
+    }
+
+    /* ⭐ denser star background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 5% 10%, #fff, transparent),
+        radial-gradient(1px 1px at 15% 80%, #fff, transparent),
+        radial-gradient(1px 1px at 25% 30%, #fff, transparent),
+        radial-gradient(1px 1px at 35% 60%, #fff, transparent),
+        radial-gradient(1px 1px at 45% 20%, #fff, transparent),
+        radial-gradient(1px 1px at 55% 75%, #fff, transparent),
+        radial-gradient(1px 1px at 65% 40%, #fff, transparent),
+        radial-gradient(1px 1px at 75% 15%, #fff, transparent),
+        radial-gradient(1px 1px at 85% 55%, #fff, transparent),
+        radial-gradient(1px 1px at 95% 85%, #fff, transparent),
+        radial-gradient(2px 2px at 20% 50%, #fff, transparent),
+        radial-gradient(2px 2px at 70% 70%, #fff, transparent);
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .center {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeIn 0.6s ease forwards;
+      animation-delay: 0.5s;
+    }
+
+    /* 📦 profile box */
+    .card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      padding: 28px 26px;
+
+      background: rgba(0,0,0,0.65);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 18px;
+      backdrop-filter: blur(12px);
+
+      box-shadow:
+        0 0 12px rgba(255,255,255,0.18),
+        0 0 45px rgba(255,255,255,0.12);
+    }
+
+    .pfp {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow:
+        0 0 14px rgba(255,255,255,0.35),
+        0 0 50px rgba(255,255,255,0.18);
+    }
+
+    .name {
+      color: var(--fg);
+      font-size: 26px;
+      letter-spacing: 0.6px;
+    }
+
+    .bio {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      max-width: 260px;
+      min-height: 18px;
+    }
+
+    /* 🎧 Player */
+    .player {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      color: rgba(255,255,255,0.9);
+      font-size: 11px;
+    }
+
+    .cover {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+
+    .player-info {
+      min-width: 130px;
+      text-align: left;
+    }
+
+    .track {
+      font-weight: 500;
+      font-size: 11px;
+    }
+
+    .artist {
+      font-size: 10px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .controls button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    #progress {
+      width: 80px;
+    }
+
+    #time {
+      font-size: 10px;
+      color: rgba(255,255,255,0.5);
+      min-width: 34px;
+      text-align: right;
+    }
+
+    .volume {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .volume input {
+      width: 50px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="center">
+    <div class="card">
+      <img src="profile.png" alt="pfp" class="pfp">
+      <div class="name">emre</div>
+      <div class="bio" id="bio"></div>
+
+      <div class="player">
+        <img src="cvr.png" class="cover" alt="cover">
+
+        <div class="player-info">
+          <div class="track">trapspot</div>
+          <div class="artist">yuke, jaydes</div>
+        </div>
+
+        <div class="controls">
+          <button id="play">▶</button>
+          <input id="progress" type="range" min="0" max="100" value="0">
+          <span id="time">0:00</span>
+        </div>
+
+        <div class="volume">
+          🔊
+          <input id="volume" type="range" min="0" max="1" step="0.01" value="0.75">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="audio" src="profile.mp3" preload="auto"></audio>
+
+  <script>
+    // typewriter bio
+    const text = "smoking to my songs, she don't really wanna die though";
+    const bioEl = document.getElementById("bio");
+    let i = 0;
+
+    setTimeout(() => {
+      const typing = setInterval(() => {
+        bioEl.textContent += text[i];
+        i++;
+        if (i >= text.length) clearInterval(typing);
+      }, 45);
+    }, 500);
+
+    // audio player
+    const audio = document.getElementById("audio");
+    const play = document.getElementById("play");
+    const progress = document.getElementById("progress");
+    const timeEl = document.getElementById("time");
+    const volume = document.getElementById("volume");
+
+    audio.volume = 0.75;
+
+    play.onclick = () => {
+      if (audio.paused) {
+        audio.play();
+        play.textContent = "⏸";
+      } else {
+        audio.pause();
+        play.textContent = "▶";
+      }
+    };
+
+    audio.addEventListener("timeupdate", () => {
+      if (!audio.duration) return;
+      progress.value = (audio.currentTime / audio.duration) * 100;
+      const m = Math.floor(audio.currentTime / 60);
+      const s = Math.floor(audio.currentTime % 60).toString().padStart(2, "0");
+      timeEl.textContent = `${m}:${s}`;
+    });
+
+    progress.oninput = () => {
+      if (audio.duration) {
+        audio.currentTime = (progress.value / 100) * audio.duration;
+      }
+    };
+
+    volume.oninput = () => {
+      audio.volume = volume.value;
+    };
+  </script>
+
+</body>
+</html>
 
