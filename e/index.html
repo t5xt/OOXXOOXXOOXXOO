@@ -1,6 +1,4 @@
-# Correct GitHub Pages–safe version using RELATIVE paths (this is the real fix)
-
-html = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -71,6 +69,7 @@ html = """<!DOCTYPE html>
       color: rgba(255,255,255,0.7);
       max-width: 260px;
       min-height: 18px;
+      text-align: center;
     }
 
     .player {
@@ -117,13 +116,12 @@ html = """<!DOCTYPE html>
 <body>
   <div class="center">
     <div class="card">
-      <!-- RELATIVE PATHS (critical) -->
-      <img src="./profile.png" class="pfp" alt="profile" />
+      <img src="profile.png" class="pfp" />
       <div class="name">emre</div>
       <div class="bio" id="bio"></div>
 
       <div class="player">
-        <img src="./cvr.png" class="cover" alt="cover" />
+        <img src="cvr.png" class="cover" />
 
         <div class="info">
           <div class="track">trapspot</div>
@@ -144,7 +142,7 @@ html = """<!DOCTYPE html>
     </div>
   </div>
 
-  <audio id="audio" src="./profile.mp3"></audio>
+  <audio id="audio" src="profile.mp3"></audio>
 
   <script>
     const text = "smoking to my songs, she don't really wanna die though";
@@ -193,11 +191,3 @@ html = """<!DOCTYPE html>
   </script>
 </body>
 </html>
-"""
-
-path = "/mnt/data/index.html"
-with open(path, "w") as f:
-    f.write(html)
-
-path
-
