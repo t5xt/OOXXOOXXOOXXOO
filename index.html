@@ -1,162 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>✞</title>
-<style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    background: black;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-  canvas {
-    width: 100vw;
-    height: 100vh;
-    image-rendering: pixelated;
-    display: block;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lurki.ng</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+    body {
+      background-color: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+    }
+    .text {
+      color: white;
+      font-size: 50px;
+    }
+  </style>
 </head>
 <body>
-<canvas id="c"></canvas>
-
-<script>
-const canvas = document.getElementById("c");
-const ctx = canvas.getContext("2d");
-
-let stars = [];
-let graves = [];
-
-function W() { return canvas.width; }
-function H() { return canvas.height; }
-
-/* ---------- Resize ---------- */
-function resize() {
-  canvas.width = Math.floor(window.innerWidth / 4);
-  canvas.height = Math.floor(window.innerHeight / 4);
-  generateStars();
-  generateGraves();
-}
-window.addEventListener("resize", resize);
-resize();
-
-/* ---------- Stars ---------- */
-function generateStars() {
-  stars = [];
-  for (let i = 0; i < 50; i++) {
-    stars.push({
-      x: Math.random() * W(),
-      y: Math.random() * (H() * 0.5),
-      speed: Math.random() * 0.008 + 0.002
-    });
-  }
-}
-
-/* ---------- Graves ---------- */
-function generateGraves() {
-  graves = [];
-  const baseY = H() * 0.7 - 14; // higher horizon = smaller ground
-  let x = 20;
-  while (x < W() - 30) {
-    if (Math.random() < 0.7) {
-      graves.push({
-        x,
-        y: baseY + Math.floor(Math.random() * 3),
-        type: Math.floor(Math.random() * 5),
-        seed: Math.floor(Math.random() * 1000)
-      });
-    }
-    x += 20 + Math.random() * 10;
-  }
-}
-
-/* ---------- Utils ---------- */
-function px(x, y, c="#fff") {
-  ctx.fillStyle = c;
-  ctx.fillRect(x, y, 1, 1);
-}
-
-function drawWriting(x, y, w, seed) {
-  const lines = 2 + (seed % 3);
-  for (let i = 0; i < lines; i++) {
-    ctx.fillStyle = "#000";
-    ctx.fillRect(x + 2, y + 4 + i*2, w-4, 1);
-  }
-}
-
-/* ---------- Grave Types ---------- */
-function graveFlat(g){ ctx.fillStyle="#fff"; ctx.fillRect(g.x,g.y,10,14); ctx.fillRect(g.x-1,g.y+14,12,2); drawWriting(g.x,g.y,10,g.seed); }
-function graveRounded(g){ ctx.fillStyle="#fff"; ctx.fillRect(g.x,g.y+2,10,12); ctx.fillRect(g.x+1,g.y,8,2); ctx.fillRect(g.x-1,g.y+14,12,2); drawWriting(g.x,g.y+2,10,g.seed);}
-function graveTall(g){ ctx.fillStyle="#fff"; ctx.fillRect(g.x,g.y-4,10,18); ctx.fillRect(g.x-1,g.y+14,12,2); drawWriting(g.x,g.y-2,10,g.seed);}
-function graveCross(g){ ctx.fillStyle="#fff"; ctx.fillRect(g.x+3,g.y-6,4,6); ctx.fillRect(g.x+1,g.y-3,8,2); ctx.fillRect(g.x,g.y,10,14); ctx.fillRect(g.x-1,g.y+14,12,2); drawWriting(g.x,g.y,10,g.seed);}
-function graveBroken(g){ ctx.fillStyle="#fff"; ctx.fillRect(g.x,g.y,10,12); ctx.fillRect(g.x-1,g.y+12,12,2); px(g.x+5,g.y+4,"#000"); drawWriting(g.x,g.y,10,g.seed); }
-
-/* ---------- Draw Graves ---------- */
-function drawGraves() {
-  graves.forEach(g=>{
-    switch(g.type){
-      case 0: graveFlat(g); break;
-      case 1: graveRounded(g); break;
-      case 2: graveTall(g); break;
-      case 3: graveCross(g); break;
-      case 4: graveBroken(g); break;
-    }
-  });
-}
-
-/* ---------- Fog ---------- */
-let fogOffset=0;
-function drawFog(){
-  fogOffset+=0.08;
-  for(let i=0;i<W();i+=4){
-    ctx.fillStyle="rgba(255,255,255,0.03)";
-    ctx.fillRect(i+Math.sin((i+fogOffset)*0.05)*2,H()*0.72,8,6);
-  }
-}
-
-/* ---------- Moon ---------- */
-function drawMoon() {
-  const mx = 40;
-  const my = 20;
-  const radius = 8;
-  for(let y=-radius;y<=radius;y++){
-    for(let x=-radius;x<=radius;x++){
-      if(x*x + y*y <= radius*radius){
-        px(mx+x,my+y,"#fff");
-      }
-    }
-  }
-}
-
-/* ---------- Loop ---------- */
-function drawScene(){
-  ctx.fillStyle="#000";
-  ctx.fillRect(0,0,W(),H());
-
-  // stars
-  stars.forEach(s=>{
-    px(s.x|0,s.y|0);
-    s.y+=s.speed;
-    if(s.y>H()*0.5){ s.y=0; s.x=Math.random()*W(); }
-  });
-
-  drawMoon();
-
-  // ground
-  ctx.fillStyle="#111";
-  ctx.fillRect(0,H()*0.7,W(),H());
-
-  drawGraves();
-  drawFog();
-
-  requestAnimationFrame(drawScene);
-}
-
-drawScene();
-
-</script>
+  <div class="text">💤</div>
 </body>
 </html>
