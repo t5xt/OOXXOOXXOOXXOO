@@ -1,34 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lurki.ng</title>
   <style>
     html, body {
-      margin: 0;
-      padding: 0;
       width: 100%;
       height: 100%;
-      background-color: black;
+      margin: 0;
+    }
+
+    body {
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      background-color: black;
     }
 
     img {
-      width: 120px;
-      height: auto;
-      cursor: pointer;
+      max-width: 200px; /* adjust size as needed */
+      max-height: 200px;
     }
 
-    a {
-      text-decoration: none;
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    p {
+      margin-top: 12px;
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <a href="https://discord.gg/c2YztRqXT4" target="_blank" rel="noopener noreferrer">
-    <img src="loading.gif" alt="Loading">
-  </a>
+  <div class="container">
+    <img src="face.png" alt="Face" />
+    <p>hi my name is liana and i larp funds for a living</p>
+  </div>
 </body>
 </html>
