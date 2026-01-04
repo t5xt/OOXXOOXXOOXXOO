@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lurki.ng</title>
+  <title>Centered Image</title>
   <style>
     html, body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: black;
+      position: relative;
     }
 
     body {
@@ -27,6 +29,32 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-top: 120px; /* moves everything down toward center */
+    }
+
+    .discord-box {
+      margin-top: 14px;
+      background-color: #111;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      width: 220px;
+      text-align: left;
+    }
+
+    .discord-box h3 {
+      margin: 0 0 8px 0;
+      font-size: 16px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 4px;
+    }
+
+    .discord-box p {
+      margin: 6px 0;
+      font-size: 14px;
+      text-align: left;
     }
 
     p {
@@ -42,7 +70,12 @@
   <div class="container">
     <img src="face.png" alt="Face" />
     <p>hi my name is liana and i larp funds for a living</p>
+
+    <div class="discord-box">
+      <h3>discord</h3>
+      <p><strong>Username:</strong> ageplaydoll</p>
+      <p><strong>UID:</strong> 1187644106126671884</p>
+    </div>
   </div>
 </body>
 </html>
-
