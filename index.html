@@ -13,12 +13,33 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      font-family: Arial, sans-serif;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Intro overlay */
+    #intro {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+      transition: opacity 1.5s ease;
+      background-color: black;
+    }
+
+    /* Main content */
+    #content {
+      display: none;
+      opacity: 0;
+      transition: opacity 2s ease;
     }
 
     img {
       width: 140px;
       height: auto;
-      cursor: pointer;
     }
 
     a {
@@ -26,9 +47,63 @@
     }
   </style>
 </head>
-<body>
-  <a href="https://discord.gg/c2YztRqXT4" target="_blank" rel="noopener noreferrer">
-    <img src="loading.gif" alt="Loading">
-  </a>
+<body onclick="enterSite()">
+
+  <!-- Hidden Audio -->
+  <audio id="bg-music" src="music.mp3" loop></audio>
+
+  <!-- Click Anywhere Intro -->
+  <div id="intro">
+    Click to Enter
+  </div>
+
+  <!-- Main Page -->
+  <div id="content">
+    <a href="https://discord.gg/c2YztRqXT4" target="_blank" rel="noopener noreferrer">
+      <img src="loading.gif" alt="Loading">
+    </a>
+  </div>
+
+  <script>
+    let entered = false;
+
+    function enterSite() {
+      if (entered) return;
+      entered = true;
+
+      const intro = document.getElementById('intro');
+      const content = document.getElementById('content');
+      const audio = document.getElementById('bg-music');
+
+      /* Fade out intro */
+      intro.style.opacity = '0';
+
+      /* Start music */
+      audio.volume = 0;
+      audio.play();
+
+      /* Fade music in */
+      let volume = 0;
+      const fadeMusic = setInterval(() => {
+        if (volume < 0.5) {
+          volume += 0.01;
+          audio.volume = volume;
+        } else {
+          clearInterval(fadeMusic);
+        }
+      }, 100);
+
+      /* Show content */
+      setTimeout(() => {
+        intro.style.display = 'none';
+        content.style.display = 'block';
+
+        requestAnimationFrame(() => {
+          content.style.opacity = '1';
+        });
+      }, 1500);
+    }
+  </script>
+
 </body>
 </html>
