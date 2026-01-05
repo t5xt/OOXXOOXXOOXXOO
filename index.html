@@ -85,7 +85,7 @@
       /* Fade music in */
       let volume = 0;
       const fadeMusic = setInterval(() => {
-        if (volume < 0.5) {
+        if (volume < 5.0) {
           volume += 0.01;
           audio.volume = volume;
         } else {
