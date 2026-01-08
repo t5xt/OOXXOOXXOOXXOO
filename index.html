@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lurki.ng</title>
   <style>
     html, body {
@@ -9,101 +10,85 @@
       padding: 0;
       width: 100%;
       height: 100%;
-      background-color: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: Arial, sans-serif;
-      color: white;
-      cursor: pointer;
+      overflow: hidden;
+      background: black;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
-    /* Intro overlay */
-    #intro {
+    canvas {
       position: fixed;
-      inset: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 18px;
-      transition: opacity 1.5s ease;
-      background-color: black;
+      top: 0;
+      left: 0;
     }
 
-    /* Main content */
-    #content {
-      display: none;
-      opacity: 0;
-      transition: opacity 2s ease;
-    }
-
-    img {
-      width: 400px;
-      height: auto;
-    }
-
-    a {
-      text-decoration: none;
+    .center-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 2rem;
+      letter-spacing: 2px;
+      text-align: center;
+      z-index: 1;
     }
   </style>
 </head>
-<body onclick="enterSite()">
-
-  <!-- Hidden Audio -->
-  <audio id="bg-music" src="music.mp3" loop></audio>
-
-  <!-- Click Anywhere Intro -->
-  <div id="intro">
-    click to continue son
-  </div>
-
-  <!-- Main Page -->
-  <div id="content">
-    <a href="https://discord.gg/c2YztRqXT4" target="_blank" rel="noopener noreferrer">
-      <img src="loading.gif" alt="Loading">
-    </a>
-  </div>
+<body>
+  <canvas id="stars"></canvas>
+  <div class="center-text">snow white cocaine up my gums</div>
 
   <script>
-    let entered = false;
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
 
-    function enterSite() {
-      if (entered) return;
-      entered = true;
-
-      const intro = document.getElementById('intro');
-      const content = document.getElementById('content');
-      const audio = document.getElementById('bg-music');
-
-      /* Fade out intro */
-      intro.style.opacity = '0';
-
-      /* Start music */
-      audio.volume = 0;
-      audio.play();
-
-      /* Fade music in */
-      let volume = 0;
-      const fadeMusic = setInterval(() => {
-        if (volume < 25.0) {
-          volume += 0.01;
-          audio.volume = volume;
-        } else {
-          clearInterval(fadeMusic);
-        }
-      }, 100);
-
-      /* Show content */
-      setTimeout(() => {
-        intro.style.display = 'none';
-        content.style.display = 'block';
-
-        requestAnimationFrame(() => {
-          content.style.opacity = '1';
-        });
-      }, 1500);
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
-  </script>
+    window.addEventListener('resize', resize);
+    resize();
 
+    const stars = [];
+    const STAR_COUNT = 180;
+
+    for (let i = 0; i < STAR_COUNT; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 0.8 + 0.3,
+        pulse: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.02 + 0.005
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (const star of stars) {
+        star.pulse += star.speed;
+
+        // when pulse completes a cycle, move star
+        if (star.pulse > Math.PI * 2) {
+          star.pulse = 0;
+          star.x = Math.random() * canvas.width;
+          star.y = Math.random() * canvas.height;
+        }
+
+        const alpha = 0.4 + Math.sin(star.pulse) * 0.4;
+
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+        ctx.fill();
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
 </body>
 </html>
