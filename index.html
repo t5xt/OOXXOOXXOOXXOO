@@ -1,70 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lurki.ng</title>
-    <!-- Minecraft font from Google Fonts (Press Start 2P) -->
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: black;
-            height: 100vh;
-            overflow: hidden;
-            font-family: 'Press Start 2P', cursive;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enter Castle</title>
 
-        /* Entry overlay */
-        #entryOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: black;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            transition: opacity 2s ease;
-            z-index: 1000;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
-        #entryOverlay.fade-out {
-            opacity: 0;
-        }
-    </style>
+<style>
+    body {
+        margin: 0;
+        background: black;
+        color: white;
+        font-family: 'Press Start 2P', cursive;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    /* Entry screen */
+    #entry {
+        position: fixed;
+        inset: 0;
+        background: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        cursor: pointer;
+        transition: opacity 2s ease;
+        z-index: 10;
+    }
+
+    #entry.fade {
+        opacity: 0;
+    }
+
+    /* Lyrics */
+    #lyrics {
+        position: absolute;
+        bottom: 60px;
+        width: 100%;
+        text-align: center;
+        max-height: 50vh;
+        overflow: hidden;
+    }
+
+    #lyrics span {
+        display: block;
+        opacity: 0.3;
+        transition: 0.4s;
+        line-height: 1.6rem;
+    }
+
+    #lyrics span.active {
+        opacity: 1;
+        color: #00ff66;
+        font-size: 1.2rem;
+    }
+</style>
 </head>
 <body>
-    <!-- Entry overlay -->
-    <div id="entryOverlay">ENTER CASTLE</div>
 
-    <!-- Background music -->
-    <audio id="bgMusic" src="song.mp3"></audio>
+<div id="entry">ENTER CASTLE</div>
 
-    <script>
-        const overlay = document.getElementById('entryOverlay');
-        const audio = document.getElementById('bgMusic');
+<audio id="song" src="song.mp3"></audio>
 
-        overlay.addEventListener('click', () => {
-            // Start music
-            audio.volume = 0.5;
-            audio.play().catch(() => {
-                console.log("Autoplay blocked, click required to play.");
-            });
+<div id="lyrics"></div>
 
-            // Fade out overlay
-            overlay.classList.add('fade-out');
+<script>
+const song = document.getElementById("song");
+const entry = document.getElementById("entry");
+const lyricsBox = document.getElementById("lyrics");
 
-            // Remove overlay after fade completes
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 2000); // Match the CSS transition duration
-        });
-    </script>
+/* Auto-spaced lyrics (150s song assumption) */
+const lyrics = [
+ { t: 5,  text: "I want your mind, can it break right through?" },
+ { t: 10, text: "Can you give me a chance to stare at you?" },
+ { t: 15, text: "Just one last time, you gotta hear it (One last time, girl, just one last time, girl)" },
+ { t: 20, text: "It's our last dance before we're through (Just one last time, girl)" },
+ { t: 25, text: "(You have no heart!)" },
+
+ { t: 35, text: "I want your mind, can it break right through?" },
+ { t: 40, text: "Can you give me a chance to stare at you?" },
+ { t: 45, text: "Just one last time, you gotta hear it (Just one last time, girl, just one last time, girl)" },
+ { t: 50, text: "It's our last dance before we're through (Just one last time, girl)" },
+
+ { t: 65, text: "You weren't mine but that's okay" },
+ { t: 70, text: "And it broke my heart when you couldn't stay" },
+ { t: 75, text: "Just one last time, you gotta hear it" },
+ { t: 80, text: "So much that I couldn't say" },
+
+ { t: 95, text: "I want your mind, can it break right through?" },
+ { t: 100,text: "Can you give me a chance to stare at you?" },
+ { t: 105,text: "Just one last time, you gotta hear it (One last time, girl, just one last time, girl)" },
+ { t: 110,text: "It's our last dance before we're through (Just one last time, girl)" },
+ { t: 115,text: "(Goth)" }
+];
+
+/* Build lyrics */
+lyrics.forEach(line => {
+    const span = document.createElement("span");
+    span.textContent = line.text;
+    lyricsBox.appendChild(span);
+});
+
+const spans = lyricsBox.querySelectorAll("span");
+
+/* Sync lyrics */
+song.addEventListener("timeupdate", () => {
+    let index = 0;
+    for (let i = 0; i < lyrics.length; i++) {
+        if (song.currentTime >= lyrics[i].t) index = i;
+    }
+
+    spans.forEach((s, i) => {
+        s.classList.toggle("active", i === index);
+    });
+
+    spans[index].scrollIntoView({ behavior: "smooth", block: "center" });
+});
+
+/* Entry click */
+entry.onclick = () => {
+    song.volume = 0.5;
+    song.play();
+    entry.classList.add("fade");
+    setTimeout(() => entry.remove(), 2000);
+};
+</script>
+
 </body>
 </html>
