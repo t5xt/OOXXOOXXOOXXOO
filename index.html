@@ -1,61 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>lurki.ng</title>
-<style>
-  body { background: #313338; font-family: "gg sans", "Segoe UI", sans-serif; color: #fff; display: flex; flex-direction: column; align-items: center; padding: 24px; margin: 0; }
-  h2 { margin-bottom: 16px; }
-  .input-row { display: flex; width: 100%; max-width: 360px; gap: 8px; }
-  input { flex: 1; background: #1e1f22; border: none; padding: 12px; color: #fff; border-radius: 6px; font-size: 14px; }
-  button { padding: 12px 14px; border: none; background: #5865f2; color: white; border-radius: 6px; cursor: pointer; font-size: 14px; }
-  .card { width: 100%; max-width: 360px; background: #1e1f22; border-radius: 12px; margin-top: 24px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,.4); }
-  .banner { height: 110px; background-size: cover; background-position: center; }
-  .avatar { width: 88px; height: 88px; border-radius: 50%; border: 6px solid #1e1f22; margin-top: -44px; margin-left: 16px; background-size: cover; }
-  .content { padding: 16px; }
-  .username { font-size: 18px; font-weight: 600; margin-top: 4px; }
-  .id { font-size: 12px; color: #b5bac1; word-break: break-all; }
-  .meta { margin-top: 10px; font-size: 13px; color: #dbdee1; }
-  .accent { margin-top: 12px; height: 6px; border-radius: 3px; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lurki.ng</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: black;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      opacity: 0;
+      transform: scale(0);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        opacity: 0;
+        transform: scale(0);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0);
+      }
+    }
+  </style>
 </head>
 <body>
+  <script>
+    const starCount = 100;
+    const stars = [];
 
-<h2>Discord Profile Viewer</h2>
+    function createStars() {
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.style.width = `${Math.random() * 3 + 1}px`; // small sizes
+        star.style.height = star.style.width;
+        document.body.appendChild(star);
+        stars.push(star);
+      }
+      positionStars();
+    }
 
-<div class="input-row">
-  <input id="uid" placeholder="Discord User ID" />
-  <button onclick="loadUser()">View</button>
-</div>
+    function positionStars() {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      stars.forEach(star => {
+        star.style.left = `${Math.random() * width}px`;
+        star.style.top = `${Math.random() * height}px`;
+      });
+    }
 
-<div id="result"></div>
+    createStars();
 
-<script>
-async function loadUser() {
-  const id = document.getElementById('uid').value;
-  const res = await fetch(`/api/user?id=${id}`);
-  const data = await res.json();
-
-  if (data.error) {
-    document.getElementById('result').innerText = data.error;
-    return;
-  }
-
-  document.getElementById('result').innerHTML = `
-    <div class="card">
-      <div class="banner" style="background-image:url('${data.banner || ''}')"></div>
-      <div class="avatar" style="background-image:url('${data.avatar}')"></div>
-      <div class="content">
-        <div class="username">${data.global_name || data.username}</div>
-        <div class="id">${data.username} · ${data.id}</div>
-        <div class="meta">Created: ${new Date(data.created_at).toLocaleDateString()}</div>
-        ${data.accent_color ? `<div class="accent" style="background:${data.accent_color}"></div>` : ''}
-      </div>
-    </div>
-  `;
-}
-</script>
-
+    // Change positions after each pulse
+    setInterval(positionStars, 2000); // matches the pulse animation duration
+  </script>
 </body>
 </html>
