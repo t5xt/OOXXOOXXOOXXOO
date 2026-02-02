@@ -3,65 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enter Castle</title>
-
+<title>lurki.ng</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
 <style>
-    body {
-        margin: 0;
-        background: black;
-        color: white;
-        font-family: 'Press Start 2P', cursive;
-        height: 100vh;
-        overflow: hidden;
-    }
+  body {
+    margin: 0;
+    background: black;
+    color: white;
+    font-family: 'Press Start 2P', cursive;
+    height: 100vh;
+    overflow: hidden;
+  }
 
-    /* Entry screen */
-    #entry {
-        position: fixed;
-        inset: 0;
-        background: black;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        cursor: pointer;
-        transition: opacity 2s ease;
-        z-index: 10;
-    }
+  /* Entry overlay */
+  #entry {
+    position: fixed;
+    inset: 0;
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: opacity 2s ease;
+    z-index: 10;
+  }
 
-    #entry.fade {
-        opacity: 0;
-    }
+  #entry.fade {
+    opacity: 0;
+  }
 
-    /* Lyrics */
-    #lyrics {
-        position: absolute;
-        bottom: 60px;
-        width: 100%;
-        text-align: center;
-        max-height: 50vh;
-        overflow: hidden;
-    }
+  /* Lyrics container */
+  #lyrics {
+    position: absolute;
+    bottom: 60px;
+    width: 100%;
+    text-align: center;
+    max-height: 50vh;
+    overflow: hidden;
+  }
 
-    #lyrics span {
-        display: block;
-        opacity: 0.3;
-        transition: 0.4s;
-        line-height: 1.6rem;
-    }
+  #lyrics span {
+    display: block;
+    opacity: 0.3;
+    transition: 0.4s;
+    line-height: 1.6rem;
+  }
 
-    #lyrics span.active {
-        opacity: 1;
-        color: #00ff66;
-        font-size: 1.2rem;
-    }
+  #lyrics span.active {
+    opacity: 1;
+    color: #00ff66;
+    font-size: 1.2rem;
+  }
 </style>
 </head>
 <body>
 
-<div id="entry">ENTER CASTLE</div>
+<div id="entry">enter castle</div>
 
 <audio id="song" src="song.mp3"></audio>
 
@@ -72,60 +70,68 @@ const song = document.getElementById("song");
 const entry = document.getElementById("entry");
 const lyricsBox = document.getElementById("lyrics");
 
-/* Original lyrics provided by you */
+/* Crawlspace lyrics line-by-line */
 const lyrics = [
- { t: 5,  text: "I want your mind, can it break right through?" },
- { t: 11, text: "Can you give me a chance to stare at you?" },
- { t: 17, text: "Just one last time, you gotta hear it (One last time, girl, just one last time, girl)" },
- { t: 23, text: "It's our last dance before we're through (Just one last time, girl)" },
- { t: 29, text: "(You have no heart!)" },
+  {t: 0, text: "Ten thousand things I'll never tell"},
+  {t: 6, text: "I'm with Keepsecrets, and we're going to hell"},
+  {t: 12, text: "Smoking in the crawlspace like \"What's that smell?\""},
+  {t: 18, text: "Ten thousand wounds in my human shell"},
+  {t: 24, text: "Walt, please, please just hear me out, please"},
 
- { t: 36, text: "I want your mind, can it break right through?" },
- { t: 42, text: "Can you give me a chance to stare at you?" },
- { t: 48, text: "Just one last time, you gotta hear it (Just one last time, girl, just one last time, girl)" },
- { t: 54, text: "It's our last dance before we're through (Just one last time, girl)" },
+  {t: 30, text: "Ten thousand things I'll never tell"},
+  {t: 36, text: "I'm with Keepsecrets, and we're going to hell"},
+  {t: 42, text: "Smoking in the crawlspace like \"What's that smell?\""},
+  {t: 48, text: "Ten thousand wounds in my human shell"},
+  {t: 54, text: "Lies I wish that you'd believe"},
 
- { t: 61, text: "You weren't mine but that's okay" },
- { t: 67, text: "And it broke my heart when you couldn't stay" },
- { t: 73, text: "Just one last time, you gotta hear it" },
- { t: 79, text: "So much that I couldn't say" },
+  {t: 60, text: "Sometimes all I do is deceive"},
+  {t: 63, text: "I know karma is watchin' me"},
+  {t: 66, text: "It's in the shadows where I sleep"},
+  {t: 69, text: "Everything about her makes me feel worse"},
+  {t: 72, text: "Sheddin' tears every time I cop a new shirt"},
 
- { t: 86, text: "I want your mind, can it break right through?" },
- { t: 92, text: "Can you give me a chance to stare at you?" },
- { t: 98, text: "Just one last time, you gotta hear it (One last time, girl, just one last time, girl)" },
- { t: 104,text: "It's our last dance before we're through (Just one last time, girl)" },
- { t: 110,text: "(Goth)" }
+  {t: 75, text: "Every single object is a new curse"},
+  {t: 78, text: "Think you feel bad? I can show you real hurt"},
+  {t: 81, text: "Ignore my friends 'cause I hate my phone"},
+  {t: 84, text: "I heard you made plans but I'll stay home"},
+  {t: 87, text: "I'll pass the time in my room alone"},
+
+  {t: 90, text: "Another six months I'll be unknown"},
+  {t: 93, text: "Ten thousand things I'll never tell"},
+  {t: 96, text: "I'm with Keepsecrets, and we're going to hell"},
+  {t: 99, text: "Smoking in the crawlspace like \"What's that smell?\""},
+  // Note: total duration 99s, last lines appear at the end
 ];
 
-/* Build lyrics in DOM */
+/* Build lyrics spans */
 lyrics.forEach(line => {
-    const span = document.createElement("span");
-    span.textContent = line.text;
-    lyricsBox.appendChild(span);
+  const span = document.createElement("span");
+  span.textContent = line.text;
+  lyricsBox.appendChild(span);
 });
 
 const spans = lyricsBox.querySelectorAll("span");
 
-/* Sync lyrics with song */
+/* Update active lyric line based on current time */
 song.addEventListener("timeupdate", () => {
-    let index = 0;
-    for (let i = 0; i < lyrics.length; i++) {
-        if (song.currentTime >= lyrics[i].t) index = i;
-    }
+  let index = 0;
+  for (let i = 0; i < lyrics.length; i++) {
+    if (song.currentTime >= lyrics[i].t) index = i;
+  }
 
-    spans.forEach((s, i) => {
-        s.classList.toggle("active", i === index);
-    });
+  spans.forEach((s, i) => {
+    s.classList.toggle("active", i === index);
+  });
 
-    spans[index].scrollIntoView({ behavior: "smooth", block: "center" });
+  spans[index].scrollIntoView({ behavior: "smooth", block: "center" });
 });
 
-/* Entry click: fade and play song */
+/* Entry click: fade overlay and play song */
 entry.onclick = () => {
-    song.volume = 0.5;
-    song.play();
-    entry.classList.add("fade");
-    setTimeout(() => entry.remove(), 2000);
+  song.volume = 0.5;
+  song.play();
+  entry.classList.add("fade");
+  setTimeout(() => entry.remove(), 2000);
 };
 </script>
 
