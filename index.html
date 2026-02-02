@@ -1,104 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>lurki.ng</title>
-  <style>
-    body {
-      background: #313338;
-      font-family: "gg sans", "Segoe UI", sans-serif;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 24px;
-      margin: 0;
-    }
-
-    h2 { margin-bottom: 16px; }
-
-    .input-row {
-      display: flex;
-      width: 100%;
-      max-width: 360px;
-      gap: 8px;
-    }
-
-    input {
-      flex: 1;
-      background: #1e1f22;
-      border: none;
-      padding: 12px;
-      color: #fff;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-
-    button {
-      padding: 12px 14px;
-      border: none;
-      background: #5865f2;
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .card {
-      width: 100%;
-      max-width: 360px;
-      background: #1e1f22;
-      border-radius: 12px;
-      margin-top: 24px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,.4);
-    }
-
-    .banner {
-      height: 110px;
-      background-size: cover;
-      background-position: center;
-    }
-
-    .avatar {
-      width: 88px;
-      height: 88px;
-      border-radius: 50%;
-      border: 6px solid #1e1f22;
-      margin-top: -44px;
-      margin-left: 16px;
-      background-size: cover;
-    }
-
-    .content {
-      padding: 16px;
-    }
-
-    .username {
-      font-size: 18px;
-      font-weight: 600;
-      margin-top: 4px;
-    }
-
-    .id {
-      font-size: 12px;
-      color: #b5bac1;
-      word-break: break-all;
-    }
-
-    .meta {
-      margin-top: 10px;
-      font-size: 13px;
-      color: #dbdee1;
-    }
-
-    .accent {
-      margin-top: 12px;
-      height: 6px;
-      border-radius: 3px;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>lurki.ng</title>
+<style>
+  body { background: #313338; font-family: "gg sans", "Segoe UI", sans-serif; color: #fff; display: flex; flex-direction: column; align-items: center; padding: 24px; margin: 0; }
+  h2 { margin-bottom: 16px; }
+  .input-row { display: flex; width: 100%; max-width: 360px; gap: 8px; }
+  input { flex: 1; background: #1e1f22; border: none; padding: 12px; color: #fff; border-radius: 6px; font-size: 14px; }
+  button { padding: 12px 14px; border: none; background: #5865f2; color: white; border-radius: 6px; cursor: pointer; font-size: 14px; }
+  .card { width: 100%; max-width: 360px; background: #1e1f22; border-radius: 12px; margin-top: 24px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,.4); }
+  .banner { height: 110px; background-size: cover; background-position: center; }
+  .avatar { width: 88px; height: 88px; border-radius: 50%; border: 6px solid #1e1f22; margin-top: -44px; margin-left: 16px; background-size: cover; }
+  .content { padding: 16px; }
+  .username { font-size: 18px; font-weight: 600; margin-top: 4px; }
+  .id { font-size: 12px; color: #b5bac1; word-break: break-all; }
+  .meta { margin-top: 10px; font-size: 13px; color: #dbdee1; }
+  .accent { margin-top: 12px; height: 6px; border-radius: 3px; }
+</style>
 </head>
 <body>
 
@@ -114,7 +34,7 @@
 <script>
 async function loadUser() {
   const id = document.getElementById('uid').value;
-  const res = await fetch(`https://YOUR-VERCEL-PROJECT.vercel.app/api/user?id=${id}`);
+  const res = await fetch(`/api/user?id=${id}`);
   const data = await res.json();
 
   if (data.error) {
