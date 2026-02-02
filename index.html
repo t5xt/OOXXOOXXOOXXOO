@@ -70,40 +70,33 @@ const song = document.getElementById("song");
 const entry = document.getElementById("entry");
 const lyricsBox = document.getElementById("lyrics");
 
-/* Crawlspace lyrics line-by-line */
+// Converted SRT to JSON (timestamps in seconds)
 const lyrics = [
-  {t: 0, text: "Ten thousand things I'll never tell"},
-  {t: 6, text: "I'm with Keepsecrets, and we're going to hell"},
-  {t: 12, text: "Smoking in the crawlspace like \"What's that smell?\""},
-  {t: 18, text: "Ten thousand wounds in my human shell"},
-  {t: 24, text: "Walt, please, please just hear me out, please"},
-
-  {t: 30, text: "Ten thousand things I'll never tell"},
-  {t: 36, text: "I'm with Keepsecrets, and we're going to hell"},
-  {t: 42, text: "Smoking in the crawlspace like \"What's that smell?\""},
-  {t: 48, text: "Ten thousand wounds in my human shell"},
-  {t: 54, text: "Lies I wish that you'd believe"},
-
-  {t: 60, text: "Sometimes all I do is deceive"},
-  {t: 63, text: "I know karma is watchin' me"},
-  {t: 66, text: "It's in the shadows where I sleep"},
-  {t: 69, text: "Everything about her makes me feel worse"},
-  {t: 72, text: "Sheddin' tears every time I cop a new shirt"},
-
-  {t: 75, text: "Every single object is a new curse"},
-  {t: 78, text: "Think you feel bad? I can show you real hurt"},
-  {t: 81, text: "Ignore my friends 'cause I hate my phone"},
-  {t: 84, text: "I heard you made plans but I'll stay home"},
-  {t: 87, text: "I'll pass the time in my room alone"},
-
-  {t: 90, text: "Another six months I'll be unknown"},
-  {t: 93, text: "Ten thousand things I'll never tell"},
-  {t: 96, text: "I'm with Keepsecrets, and we're going to hell"},
-  {t: 99, text: "Smoking in the crawlspace like \"What's that smell?\""},
-  // Note: total duration 99s, last lines appear at the end
+  { t: 0.095, text: "Ten thousand things I'll never tell, I'm with keep secrets and we're goin' to hell." },
+  { t: 5.090, text: "Smokin' in the crawlspace, like what's that smell." },
+  { t: 8.096, text: "Ten thousand wounds in my human shell." },
+  { t: 24.003, text: "Ten thousand things I'll never tell, I'm keep secrets and we're goin' to hell." },
+  { t: 29.093, text: "Smokin' in the crawlspace, like what's that smell." },
+  { t: 33.101, text: "Ten thousand wounds in my human shell." },
+  { t: 37.000, text: "Lies I wish that you'd believe." },
+  { t: 40.100, text: "Sometimes all I do's deceive." },
+  { t: 43.092, text: "I know karma's watching me." },
+  { t: 46.097, text: "It's in the shadows where I sleep." },
+  { t: 49.089, text: "Everything I buy makes me feel worse." },
+  { t: 52.095, text: "Shedding tears every time I cop a new shirt." },
+  { t: 55.100, text: "Every single object is a new curse." },
+  { t: 58.092, text: "Think you feel better? I can show you real hurt." },
+  { t: 61.097, text: "Ignore my friends, cause I hate my phone." },
+  { t: 64.089, text: "I've heard you made plans, but I'll stay home." },
+  { t: 67.095, text: "I'll pass the time in my room alone." },
+  { t: 70.100, text: "Another six months, I'll be unknown." },
+  { t: 73.092, text: "Ten thousand things I'll never tell, I'm keep secrets and we're goin' to hell." },
+  { t: 78.101, text: "Smokin' in the cralspace, like what's that smell." },
+  { t: 81.093, text: "Ten thousand wounds in my human shell." },
+  { t: 97.095, text: "Mathematical!" }
 ];
 
-/* Build lyrics spans */
+// Build lyrics in DOM
 lyrics.forEach(line => {
   const span = document.createElement("span");
   span.textContent = line.text;
@@ -112,21 +105,19 @@ lyrics.forEach(line => {
 
 const spans = lyricsBox.querySelectorAll("span");
 
-/* Update active lyric line based on current time */
+// Sync lyrics with song
 song.addEventListener("timeupdate", () => {
   let index = 0;
   for (let i = 0; i < lyrics.length; i++) {
     if (song.currentTime >= lyrics[i].t) index = i;
   }
-
   spans.forEach((s, i) => {
     s.classList.toggle("active", i === index);
   });
-
   spans[index].scrollIntoView({ behavior: "smooth", block: "center" });
 });
 
-/* Entry click: fade overlay and play song */
+// Entry click: fade overlay & play song
 entry.onclick = () => {
   song.volume = 0.5;
   song.play();
