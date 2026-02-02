@@ -1,39 +1,34 @@
+// api/user.js
+import fetch from "node-fetch";
+
 export default async function handler(req, res) {
   const { id } = req.query;
+  if (!id) return res.status(400).json({ error: "No ID provided" });
 
-  if (!id) {
-    return res.status(400).json({ error: "Missing user ID" });
+  try {
+    const discordRes = await fetch(`https://discord.com/api/v10/users/${id}`, {
+      headers: { Authorization: `Bot ${process.env.BOT_TOKEN}` },
+    });
+
+    if (!discordRes.ok) throw new Error("User not found");
+
+    const data = await discordRes.json();
+    res.status(200).json({
+      id: data.id,
+      username: data.username,
+      global_name: data.global_name,
+      avatar: data.avatar
+        ? `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.png`
+        : null,
+      banner: data.banner
+        ? `https://cdn.discordapp.com/banners/${data.id}/${data.banner}.png`
+        : null,
+      accent_color: data.accent_color ? `#${data.accent_color.toString(16)}` : null,
+      created_at: new Date(
+        parseInt((BigInt(data.id) >> 22n) + 1420070400000)
+      ).toISOString(),
+    });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
   }
-
-  const r = await fetch(`https://discord.com/api/v10/users/${id}`, {
-    headers: {
-      Authorization: `Bot ${process.env.BOT_TOKEN}`
-    }
-  });
-
-  if (!r.ok) {
-    return res.status(404).json({ error: "User not found" });
-  }
-
-  const user = await r.json();
-
-  const createdAt = new Date(
-    Number(BigInt(user.id) >> 22n) + 1420070400000
-  );
-
-  res.status(200).json({
-    id: user.id,
-    username: user.username,
-    global_name: user.global_name,
-    avatar: user.avatar
-      ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=512`
-      : null,
-    banner: user.banner
-      ? `https://cdn.discordapp.com/banners/${user.id}/${user.banner}.png?size=1024`
-      : null,
-    accent_color: user.accent_color
-      ? `#${user.accent_color.toString(16).padStart(6, "0")}`
-      : null,
-    created_at: createdAt
-  });
 }
