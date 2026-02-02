@@ -72,32 +72,32 @@ const song = document.getElementById("song");
 const entry = document.getElementById("entry");
 const lyricsBox = document.getElementById("lyrics");
 
-/* Auto-spaced lyrics (150s song assumption) */
+/* Original lyrics provided by you */
 const lyrics = [
  { t: 5,  text: "I want your mind, can it break right through?" },
- { t: 10, text: "Can you give me a chance to stare at you?" },
- { t: 15, text: "Just one last time, you gotta hear it (One last time, girl, just one last time, girl)" },
- { t: 20, text: "It's our last dance before we're through (Just one last time, girl)" },
- { t: 25, text: "(You have no heart!)" },
+ { t: 11, text: "Can you give me a chance to stare at you?" },
+ { t: 17, text: "Just one last time, you gotta hear it (One last time, girl, just one last time, girl)" },
+ { t: 23, text: "It's our last dance before we're through (Just one last time, girl)" },
+ { t: 29, text: "(You have no heart!)" },
 
- { t: 35, text: "I want your mind, can it break right through?" },
- { t: 40, text: "Can you give me a chance to stare at you?" },
- { t: 45, text: "Just one last time, you gotta hear it (Just one last time, girl, just one last time, girl)" },
- { t: 50, text: "It's our last dance before we're through (Just one last time, girl)" },
+ { t: 36, text: "I want your mind, can it break right through?" },
+ { t: 42, text: "Can you give me a chance to stare at you?" },
+ { t: 48, text: "Just one last time, you gotta hear it (Just one last time, girl, just one last time, girl)" },
+ { t: 54, text: "It's our last dance before we're through (Just one last time, girl)" },
 
- { t: 65, text: "You weren't mine but that's okay" },
- { t: 70, text: "And it broke my heart when you couldn't stay" },
- { t: 75, text: "Just one last time, you gotta hear it" },
- { t: 80, text: "So much that I couldn't say" },
+ { t: 61, text: "You weren't mine but that's okay" },
+ { t: 67, text: "And it broke my heart when you couldn't stay" },
+ { t: 73, text: "Just one last time, you gotta hear it" },
+ { t: 79, text: "So much that I couldn't say" },
 
- { t: 95, text: "I want your mind, can it break right through?" },
- { t: 100,text: "Can you give me a chance to stare at you?" },
- { t: 105,text: "Just one last time, you gotta hear it (One last time, girl, just one last time, girl)" },
- { t: 110,text: "It's our last dance before we're through (Just one last time, girl)" },
- { t: 115,text: "(Goth)" }
+ { t: 86, text: "I want your mind, can it break right through?" },
+ { t: 92, text: "Can you give me a chance to stare at you?" },
+ { t: 98, text: "Just one last time, you gotta hear it (One last time, girl, just one last time, girl)" },
+ { t: 104,text: "It's our last dance before we're through (Just one last time, girl)" },
+ { t: 110,text: "(Goth)" }
 ];
 
-/* Build lyrics */
+/* Build lyrics in DOM */
 lyrics.forEach(line => {
     const span = document.createElement("span");
     span.textContent = line.text;
@@ -106,7 +106,7 @@ lyrics.forEach(line => {
 
 const spans = lyricsBox.querySelectorAll("span");
 
-/* Sync lyrics */
+/* Sync lyrics with song */
 song.addEventListener("timeupdate", () => {
     let index = 0;
     for (let i = 0; i < lyrics.length; i++) {
@@ -120,7 +120,7 @@ song.addEventListener("timeupdate", () => {
     spans[index].scrollIntoView({ behavior: "smooth", block: "center" });
 });
 
-/* Entry click */
+/* Entry click: fade and play song */
 entry.onclick = () => {
     song.volume = 0.5;
     song.play();
