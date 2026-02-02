@@ -15,7 +15,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: center; 
     align-items: center;
   }
 
@@ -40,35 +40,26 @@
   /* Lyrics container */
   #lyrics {
     width: 100%;
-    height: 50%;
+    text-align: center;
+    max-height: 100vh;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    overflow: hidden;
-    position: relative;
+    justify-content: center; 
   }
 
   #lyrics span {
     display: block;
-    opacity: 0.2; /* faded by default */
-    transition: 0.4s, transform 0.4s;
-    line-height: 1.4rem;
-    font-size: 0.85rem; /* smaller font */
-    position: relative;
+    opacity: 0.3;
+    transition: 0.4s;
+    line-height: 1.2rem; /* slightly smaller spacing */
+    font-size: 0.55rem;  /* smaller font for non-active */
   }
 
   #lyrics span.active {
     opacity: 1;
     color: #00ff66;
-    font-size: 1.1rem;
-  }
-
-  /* Fade out above and below active line */
-  #lyrics span:not(.active) {
-    filter: blur(1px);
-    transform: scale(0.9);
+    font-size: 0.9rem;   /* active line smaller (40% reduction) */
   }
 </style>
 </head>
