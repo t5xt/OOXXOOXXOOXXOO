@@ -13,6 +13,10 @@
     font-family: 'Press Start 2P', cursive;
     height: 100vh;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* center vertically */
+    align-items: center;
   }
 
   /* Entry overlay */
@@ -35,31 +39,32 @@
 
   /* Lyrics container */
   #lyrics {
-    position: absolute;
-    bottom: 60px;
     width: 100%;
     text-align: center;
-    max-height: 50vh;
+    max-height: 100vh;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* vertical center */
   }
 
   #lyrics span {
     display: block;
     opacity: 0.3;
     transition: 0.4s;
-    line-height: 1.6rem;
+    line-height: 2rem;
   }
 
   #lyrics span.active {
     opacity: 1;
     color: #00ff66;
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 </style>
 </head>
 <body>
 
-<div id="entry">enter castle</div>
+<div id="entry">enter crawlspace</div>
 
 <audio id="song" src="song.mp3"></audio>
 
@@ -70,7 +75,7 @@ const song = document.getElementById("song");
 const entry = document.getElementById("entry");
 const lyricsBox = document.getElementById("lyrics");
 
-// Converted SRT to JSON (timestamps in seconds)
+// Lyrics JSON from your SRT timestamps
 const lyrics = [
   { t: 0.095, text: "Ten thousand things I'll never tell, I'm with keep secrets and we're goin' to hell." },
   { t: 5.090, text: "Smokin' in the crawlspace, like what's that smell." },
@@ -96,7 +101,7 @@ const lyrics = [
   { t: 97.095, text: "Mathematical!" }
 ];
 
-// Build lyrics in DOM
+// Build lyrics DOM
 lyrics.forEach(line => {
   const span = document.createElement("span");
   span.textContent = line.text;
@@ -114,7 +119,6 @@ song.addEventListener("timeupdate", () => {
   spans.forEach((s, i) => {
     s.classList.toggle("active", i === index);
   });
-  spans[index].scrollIntoView({ behavior: "smooth", block: "center" });
 });
 
 // Entry click: fade overlay & play song
