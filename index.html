@@ -1,83 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Independent Pulsing Stars</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: black;
-      overflow: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lurki.ng</title>
+    <!-- Minecraft font from Google Fonts (Press Start 2P) -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Press Start 2P', cursive;
+        }
 
-    .star {
-      position: absolute;
-      border-radius: 50%;
-      background: white;
-      opacity: 0;
-      transform: scale(0);
-      animation-name: pulse;
-      animation-iteration-count: infinite;
-      animation-timing-function: ease-in-out;
-    }
+        /* Entry overlay */
+        #entryOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: opacity 2s ease;
+            z-index: 1000;
+        }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 0; transform: scale(0); }
-      50% { opacity: 1; transform: scale(1); }
-    }
-  </style>
+        #entryOverlay.fade-out {
+            opacity: 0;
+        }
+    </style>
 </head>
 <body>
-  <script>
-    const starCount = 150;
+    <!-- Entry overlay -->
+    <div id="entryOverlay">ENTER CASTLE</div>
 
-    function randomPosition() {
-      return {
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight
-      };
-    }
+    <!-- Background music -->
+    <audio id="bgMusic" src="song.mp3"></audio>
 
-    function createStar() {
-      const star = document.createElement('div');
-      star.classList.add('star');
+    <script>
+        const overlay = document.getElementById('entryOverlay');
+        const audio = document.getElementById('bgMusic');
 
-      // Random size
-      const size = Math.random() * 2 + 1; // 1px to 3px
-      star.style.width = `${size}px`;
-      star.style.height = `${size}px`;
+        overlay.addEventListener('click', () => {
+            // Start music
+            audio.volume = 0.5;
+            audio.play().catch(() => {
+                console.log("Autoplay blocked, click required to play.");
+            });
 
-      // Random pulse duration
-      const duration = Math.random() * 2 + 1; // 1s to 3s
-      star.style.animationDuration = `${duration}s`;
+            // Fade out overlay
+            overlay.classList.add('fade-out');
 
-      // Random pulse delay
-      const delay = Math.random() * 3;
-      star.style.animationDelay = `${delay}s`;
-
-      document.body.appendChild(star);
-
-      // Initial position
-      const pos = randomPosition();
-      star.style.left = `${pos.x}px`;
-      star.style.top = `${pos.y}px`;
-
-      // Make star move to a new random position after each pulse
-      function moveAfterPulse() {
-        const newPos = randomPosition();
-        star.style.left = `${newPos.x}px`;
-        star.style.top = `${newPos.y}px`;
-        setTimeout(moveAfterPulse, duration * 1000);
-      }
-
-      setTimeout(moveAfterPulse, (delay + duration) * 1000);
-    }
-
-    for (let i = 0; i < starCount; i++) {
-      createStar();
-    }
-  </script>
+            // Remove overlay after fade completes
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 2000); // Match the CSS transition duration
+        });
+    </script>
 </body>
 </html>
