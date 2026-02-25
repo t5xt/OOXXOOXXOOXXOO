@@ -1,135 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>lurki.ng</title>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-<style>
-  body {
-    margin: 0;
-    background: black;
-    color: white;
-    font-family: 'Press Start 2P', cursive;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    align-items: center;
-  }
+  <meta charset="UTF-8">
+  <title>lurki.ng</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  /* Entry overlay */
-  #entry {
-    position: fixed;
-    inset: 0;
-    background: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
-    cursor: pointer;
-    transition: opacity 2s ease;
-    z-index: 10;
-  }
+    body {
+      height: 100vh;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
 
-  #entry.fade {
-    opacity: 0;
-  }
-
-  /* Lyrics container */
-  #lyrics {
-    width: 100%;
-    text-align: center;
-    max-height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-  }
-
-  #lyrics span {
-    display: block;
-    opacity: 0.3;
-    transition: 0.4s;
-    line-height: 1.4rem; 
-    font-size: 0.715rem;  /* 10% bigger */
-  }
-
-  #lyrics span.active {
-    opacity: 1;
-    color: #ff69b4; /* pink */
-    font-size: 0.77rem;   /* 10% bigger */
-  }
-</style>
+    h1 {
+      color: #ffffff;
+      font-size: clamp(0.8rem, 2vw, 1.5rem);
+      text-align: center;
+      letter-spacing: 2px;
+    }
+  </style>
 </head>
 <body>
-
-<div id="entry">enter crawlspace</div>
-
-<audio id="song" src="song.mp3"></audio>
-
-<div id="lyrics"></div>
-
-<script>
-const song = document.getElementById("song");
-const entry = document.getElementById("entry");
-const lyricsBox = document.getElementById("lyrics");
-
-// Lyrics JSON from your SRT timestamps
-const lyrics = [
-  { t: 0.095, text: "Ten thousand things I'll never tell, I'm with keep secrets and we're goin' to hell." },
-  { t: 5.090, text: "Smokin' in the crawlspace, like what's that smell." },
-  { t: 8.096, text: "Ten thousand wounds in my human shell." },
-  { t: 24.003, text: "Ten thousand things I'll never tell, I'm with keep secrets and we're goin' to hell." },
-  { t: 29.093, text: "Smokin' in the crawlspace, like what's that smell." },
-  { t: 33.101, text: "Ten thousand wounds in my human shell." },
-  { t: 37.000, text: "Lies I wish that you'd believe." },
-  { t: 40.100, text: "Sometimes all I do's deceive." },
-  { t: 43.092, text: "I know karma's watching me." },
-  { t: 46.097, text: "It's in the shadows where I sleep." },
-  { t: 49.089, text: "Everything I buy makes me feel worse." },
-  { t: 52.095, text: "Shedding tears every time I cop a new shirt." },
-  { t: 55.100, text: "Every single object is a new curse." },
-  { t: 58.092, text: "Think you feel bad? I can show you real hurt." },
-  { t: 61.097, text: "Ignore my friends, cause I hate my phone." },
-  { t: 64.089, text: "I've heard you made plans, but I'll stay home." },
-  { t: 67.095, text: "I'll pass the time in my room alone." },
-  { t: 70.100, text: "Another six months, I'll be unknown." },
-  { t: 73.092, text: "Ten thousand things I'll never tell, I'm with keep secrets and we're goin' to hell." },
-  { t: 78.101, text: "Smokin' in the cralspace, like what's that smell." },
-  { t: 81.093, text: "Ten thousand wounds in my human shell." },
-  { t: 97.095, text: "Mathematical!" }
-];
-
-// Build lyrics DOM
-lyrics.forEach(line => {
-  const span = document.createElement("span");
-  span.textContent = line.text;
-  lyricsBox.appendChild(span);
-});
-
-const spans = lyricsBox.querySelectorAll("span");
-
-// Sync lyrics with song
-song.addEventListener("timeupdate", () => {
-  let index = 0;
-  for (let i = 0; i < lyrics.length; i++) {
-    if (song.currentTime >= lyrics[i].t) index = i;
-  }
-  spans.forEach((s, i) => {
-    s.classList.toggle("active", i === index);
-  });
-});
-
-// Entry click: fade overlay & play song
-entry.onclick = () => {
-  song.volume = 0.5;
-  song.play();
-  entry.classList.add("fade");
-  setTimeout(() => entry.remove(), 2000);
-};
-</script>
-
+  <h1>everytime we talk, think i go off script, if you wanna hit me up you can take that risk.</h1>
 </body>
 </html>
