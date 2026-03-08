@@ -31,6 +31,7 @@ overflow:hidden;
 text-align:center;
 opacity:1;
 transition:opacity 1.2s ease;
+z-index:2;
 }
 
 .title{
@@ -75,16 +76,6 @@ max-width:400px;
 height:auto;
 }
 
-/* ACTIVE STATES */
-
-.fade-out{
-opacity:0;
-}
-
-.fade-in{
-opacity:1;
-}
-
 </style>
 </head>
 
@@ -108,8 +99,11 @@ opacity:1;
 
 function enterSite(){
 
-document.getElementById("enter-screen").classList.add("fade-out");
-document.getElementById("gif-screen").classList.add("fade-in");
+document.getElementById("enter-screen").style.opacity = "0";
+
+let gif = document.getElementById("gif-screen");
+gif.style.pointerEvents = "auto";
+gif.style.opacity = "1";
 
 }
 
