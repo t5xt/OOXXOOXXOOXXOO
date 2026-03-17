@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -8,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap" rel="stylesheet">
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -16,9 +14,9 @@ box-sizing:border-box;
 }
 
 body{
-background:black;
+background: radial-gradient(circle at top, #0a0a0a, #000);
 color:white;
-height:100vh;
+min-height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -27,7 +25,6 @@ overflow:hidden;
 }
 
 /* SNOW */
-
 #snow{
 position:fixed;
 top:0;
@@ -38,8 +35,7 @@ pointer-events:none;
 z-index:1;
 }
 
-/* ENTER SCREEN */
-
+/* ENTER */
 #enter-screen{
 text-align:center;
 opacity:1;
@@ -49,20 +45,23 @@ position:relative;
 }
 
 .title{
-font-size:28px;
-letter-spacing:4px;
-margin-bottom:25px;
+font-size:32px;
+letter-spacing:6px;
+margin-bottom:30px;
+text-shadow:0 0 15px rgba(255,255,255,0.2);
 }
 
 .enter-btn{
-border:1px solid rgba(255,255,255,0.8);
-padding:8px 22px;
-display:inline-block;
+border:1px solid rgba(255,255,255,0.2);
+padding:10px 28px;
 cursor:pointer;
 letter-spacing:3px;
 font-size:13px;
 text-transform:lowercase;
-transition:0.25s;
+background: rgba(255,255,255,0.05);
+backdrop-filter: blur(10px);
+border-radius:10px;
+transition:0.3s;
 }
 
 .enter-btn:hover{
@@ -70,99 +69,118 @@ background:white;
 color:black;
 }
 
-/* PROFILE SCREEN */
-
+/* PROFILE GRID */
 #profile-screen{
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
-display:flex;
+display:grid;
+grid-template-columns: repeat(auto-fit, minmax(240px, 240px));
 justify-content:center;
-align-items:center;
-gap:90px;
+align-content:center;
+gap:40px;
 opacity:0;
 transition:opacity 1.2s ease;
 pointer-events:none;
 z-index:3;
-flex-wrap:wrap;
+padding:40px;
 }
 
+/* GLASS CARD */
 .profile{
 display:flex;
 flex-direction:column;
-align-items:center;
-border:2px solid white;
-padding:28px;
+justify-content:space-between;
+
+height:380px; /* FORCE SAME HEIGHT */
+
+background: rgba(255,255,255,0.05);
+backdrop-filter: blur(14px);
+border:1px solid rgba(255,255,255,0.15);
+
+border-radius:18px;
+padding:25px;
 width:240px;
-transition:0.25s;
+
+transition:0.3s;
+box-shadow:0 0 20px rgba(255,255,255,0.05);
 }
 
 .profile:hover{
-transform:scale(1.05);
+transform:translateY(-6px) scale(1.05);
+box-shadow:0 0 35px rgba(255,255,255,0.15);
+}
+
+.profile-top{
+display:flex;
+flex-direction:column;
+align-items:center;
 }
 
 .profile img{
-width:170px;
-height:170px;
+width:150px;
+height:150px;
 border-radius:50%;
-margin-bottom:16px;
+margin-bottom:14px;
 object-fit:cover;
+border:2px solid rgba(255,255,255,0.2);
 }
 
-/* placeholder avatar */
-
 .no-pfp{
-width:170px;
-height:170px;
+width:150px;
+height:150px;
 border-radius:50%;
-border:2px solid white;
-margin-bottom:16px;
+border:2px solid rgba(255,255,255,0.2);
+margin-bottom:14px;
 }
 
 .name{
 font-size:20px;
 letter-spacing:2px;
 min-height:24px;
+text-align:center;
 }
 
 .handle{
 font-size:14px;
-opacity:0.7;
+opacity:0.6;
 margin-top:6px;
-margin-bottom:12px;
+margin-bottom:10px;
 letter-spacing:1px;
+text-align:center;
 }
 
-/* BUTTONS */
-
+/* BUTTONS LOCKED TO BOTTOM */
 .buttons{
 display:flex;
 gap:10px;
 flex-wrap:wrap;
 justify-content:center;
+margin-top:auto;
 }
 
 .profile-btn{
-border:1px solid rgba(255,255,255,0.8);
-padding:6px 18px;
+border:1px solid rgba(255,255,255,0.2);
+padding:6px 16px;
 cursor:pointer;
 letter-spacing:2px;
 font-size:12px;
 text-transform:lowercase;
-transition:0.2s;
 text-decoration:none;
 color:white;
+background: rgba(255,255,255,0.05);
+backdrop-filter: blur(8px);
+border-radius:8px;
+transition:0.25s;
 }
 
 .profile-btn:hover{
 background:white;
 color:black;
 }
-
 </style>
-
 </head>
 
 <body>
@@ -170,169 +188,187 @@ color:black;
 <canvas id="snow"></canvas>
 
 <div id="enter-screen">
-<div class="title">x_x</div>
-<div class="enter-btn" onclick="enterSite()">𝚎𝚗𝚝𝚎𝚛</div>
+  <div class="title">x_x</div>
+  <div class="enter-btn" onclick="enterSite()">enter</div>
 </div>
 
 <div id="profile-screen">
 
 <div class="profile">
-<img src="images/charlie.webp">
+<div class="profile-top">
+<img src="images/charlie.png">
 <div class="name" data-name="charlie"></div>
-<div class="handle">@californiacrazy2019</div>
+<div class="handle"></div>
+</div>
 <div class="buttons">
-<a class="profile-btn" href="https://discord.com/users/californiacrazy2019" target="_blank">discord</a>
-<a class="profile-btn" href="https://www.roblox.com/users/profile?username=iwhu" target="_blank">roblox</a>
+<a class="profile-btn" href="#">discord</a>
+<a class="profile-btn" href="#">roblox</a>
 </div>
 </div>
 
 <div class="profile">
-<img src="images/emre.webp">
+<div class="profile-top">
+<img src="images/emre.png">
 <div class="name" data-name="emre"></div>
-<div class="handle">@im_not_alex_g_and_ur_not_sarah</div>
+<div class="handle"></div>
+</div>
 <div class="buttons">
-<a class="profile-btn" href="https://discord.com/users/im_not_alex_g_and_ur_not_sarah" target="_blank">discord</a>
-<a class="profile-btn" href="https://www.roblox.com/users/profile?username=anemicx_v" target="_blank">roblox</a>
+<a class="profile-btn" href="#">discord</a>
+<a class="profile-btn" href="#">roblox</a>
 </div>
 </div>
 
 <div class="profile">
-<img src="images/ethan.webp">
+<div class="profile-top">
+<img src="images/ethan.png">
 <div class="name" data-name="ethan"></div>
-<div class="handle">@skulling</div>
+<div class="handle"></div>
+</div>
 <div class="buttons">
-<a class="profile-btn" href="https://discord.com/users/skulling" target="_blank">discord</a>
-<a class="profile-btn" href="https://www.roblox.com/users/profile?username=x051910" target="_blank">roblox</a>
+<a class="profile-btn" href="#">discord</a>
+<a class="profile-btn" href="#">roblox</a>
 </div>
 </div>
 
 <div class="profile">
-<img src="images/zes.webp">
+<div class="profile-top">
+<img src="images/zes.png">
 <div class="name" data-name="zes"></div>
-<div class="handle">@imbreviate</div>
+<div class="handle"></div>
+</div>
 <div class="buttons">
-<a class="profile-btn" href="https://discord.com/users/imbreviate" target="_blank">discord</a>
+<a class="profile-btn" href="#">discord</a>
 </div>
 </div>
 
 <div class="profile">
+<div class="profile-top">
 <div class="no-pfp"></div>
 <div class="name" data-name="carnage"></div>
-<div class="handle">@brainteasing</div>
+<div class="handle"></div>
+</div>
 <div class="buttons">
-<a class="profile-btn" href="https://discord.com/users/brainteasting" target="_blank">discord</a>
+<a class="profile-btn" href="#">discord</a>
 </div>
 </div>
 
 </div>
-
-<audio id="bg-music" src="media/song.mp3" loop></audio>
 
 <script>
 
 /* ENTER */
+let audioStarted = false;
 
 function enterSite(){
+  const enter = document.getElementById("enter-screen");
+  const profiles = document.getElementById("profile-screen");
 
-document.getElementById("enter-screen").style.opacity="0";
+  enter.style.opacity = "0";
 
-let profiles=document.getElementById("profile-screen");
-profiles.style.pointerEvents="auto";
-profiles.style.opacity="1";
+  setTimeout(()=>{
+    enter.style.display = "none";
+    profiles.style.opacity = "1";
+    profiles.style.pointerEvents = "auto";
+  },1000);
 
-document.getElementById("bg-music").play();
-
-startTyping();
-
+  startMusic();
+  startTyping();
 }
 
-/* TYPEWRITER */
+/* AUDIO */
+let bgAudio;
 
-function typeWriter(el,text,speed=80){
+function startMusic(){
+  if(audioStarted) return;
 
-let i=0;
+  bgAudio = new Audio("media/song.mp3");
+  bgAudio.loop = true;
+  bgAudio.volume = 0.7;
 
-function type(){
-if(i<text.length){
-el.innerHTML+=text.charAt(i);
-i++;
-setTimeout(type,speed);
+  bgAudio.play().then(()=>{
+    audioStarted = true;
+  }).catch(()=>{
+    document.addEventListener("click", () => {
+      bgAudio.play();
+      audioStarted = true;
+    }, { once: true });
+  });
 }
-}
 
-type();
-
+/* TYPE */
+function typeWriter(el,text,speed=65){
+  let i=0;
+  function type(){
+    if(i<text.length){
+      el.innerHTML+=text.charAt(i);
+      i++;
+      setTimeout(type,speed);
+    }
+  }
+  type();
 }
 
 function startTyping(){
-document.querySelectorAll(".name").forEach(el=>{
-typeWriter(el,el.dataset.name);
-});
+  document.querySelectorAll(".name").forEach(el=>{
+    typeWriter(el,el.dataset.name);
+  });
 }
 
 /* SNOW */
+const canvas = document.getElementById("snow");
+const ctx = canvas.getContext("2d");
 
-const canvas=document.getElementById("snow");
-const ctx=canvas.getContext("2d");
-
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-window.addEventListener("resize",()=>{
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-});
-
-let snow=[];
-
-const layers=[
-{count:60,size:1,speed:0.3,opacity:0.3},
-{count:50,size:2,speed:0.6,opacity:0.6},
-{count:40,size:3,speed:1,opacity:0.9}
-];
-
-layers.forEach(layer=>{
-for(let i=0;i<layer.count;i++){
-snow.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:layer.size+Math.random()*layer.size,
-speed:layer.speed+Math.random()*layer.speed,
-opacity:layer.opacity
-});
+function resizeCanvas(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
-});
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+const isMobile = window.innerWidth < 768;
+const FLAKE_COUNT = isMobile ? 120 : 220;
+
+let snowflakes = [];
+
+function createSnowflakes(){
+  snowflakes = [];
+  for(let i=0;i<FLAKE_COUNT;i++){
+    snowflakes.push({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height,
+      size: Math.random()*1.2 + 0.3,
+      speedY: Math.random()*0.6 + 0.2,
+      speedX: Math.random()*0.3 - 0.15,
+      opacity: Math.random()*0.5 + 0.2
+    });
+  }
+}
+
+createSnowflakes();
 
 function drawSnow(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
 
-ctx.clearRect(0,0,canvas.width,canvas.height);
+  for(let flake of snowflakes){
+    ctx.beginPath();
+    ctx.arc(flake.x, flake.y, flake.size, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(255,255,255,${flake.opacity})`;
+    ctx.fill();
 
-snow.forEach(flake=>{
-ctx.beginPath();
-ctx.arc(flake.x,flake.y,flake.r,0,Math.PI*2);
-ctx.fillStyle=`rgba(255,255,255,${flake.opacity})`;
-ctx.fill();
-});
+    flake.y += flake.speedY;
+    flake.x += flake.speedX;
+    flake.x += Math.sin(flake.y * 0.01) * 0.2;
 
-moveSnow();
-requestAnimationFrame(drawSnow);
+    if(flake.y > canvas.height){
+      flake.y = -5;
+      flake.x = Math.random()*canvas.width;
+    }
 
-}
+    if(flake.x > canvas.width) flake.x = 0;
+    if(flake.x < 0) flake.x = canvas.width;
+  }
 
-function moveSnow(){
-
-snow.forEach(flake=>{
-
-flake.y+=flake.speed;
-flake.x+=Math.sin(flake.y*0.01)*0.5;
-
-if(flake.y>canvas.height){
-flake.y=-10;
-flake.x=Math.random()*canvas.width;
-}
-
-});
-
+  requestAnimationFrame(drawSnow);
 }
 
 drawSnow();
