@@ -93,8 +93,7 @@ padding:40px;
 display:flex;
 flex-direction:column;
 justify-content:space-between;
-
-height:380px;
+height:420px;
 
 background: rgba(255,255,255,0.05);
 backdrop-filter: blur(14px);
@@ -128,18 +127,9 @@ object-fit:cover;
 border:2px solid rgba(255,255,255,0.2);
 }
 
-.no-pfp{
-width:150px;
-height:150px;
-border-radius:50%;
-border:2px solid rgba(255,255,255,0.2);
-margin-bottom:14px;
-}
-
 .name{
 font-size:20px;
 letter-spacing:2px;
-min-height:24px;
 text-align:center;
 }
 
@@ -147,9 +137,19 @@ text-align:center;
 font-size:14px;
 opacity:0.6;
 margin-top:6px;
-margin-bottom:10px;
+margin-bottom:6px;
 letter-spacing:1px;
 text-align:center;
+}
+
+/* BIO */
+.bio{
+font-size:13px;
+opacity:0.7;
+text-align:center;
+min-height:40px;
+margin-bottom:10px;
+padding:0 5px;
 }
 
 /* BUTTONS */
@@ -197,8 +197,9 @@ color:black;
 <div class="profile">
 <div class="profile-top">
 <img src="images/charlie.webp">
-<div class="name" data-name="caught"></div>
+<div class="name">caught</div>
 <div class="handle"></div>
+<div class="bio" data-bio="alicia my love"></div>
 </div>
 <div class="buttons">
 <a class="profile-btn" href="https://discord.com/users/californiacrazy2019" target="_blank">discord</a>
@@ -209,8 +210,9 @@ color:black;
 <div class="profile">
 <div class="profile-top">
 <img src="images/emre.webp">
-<div class="name" data-name="anemic"></div>
+<div class="name">anemic</div>
 <div class="handle"></div>
+<div class="bio" data-bio="every time we talk, think i go off script"></div>
 </div>
 <div class="buttons">
 <a class="profile-btn" href="https://discord.com/users/im_not_alex_g_and_ur_not_sarah" target="_blank">discord</a>
@@ -221,8 +223,9 @@ color:black;
 <div class="profile">
 <div class="profile-top">
 <img src="images/ethan.webp">
-<div class="name" data-name="seek"></div>
+<div class="name">seek</div>
 <div class="handle"></div>
+<div class="bio" data-bio="paige my little doll"></div>
 </div>
 <div class="buttons">
 <a class="profile-btn" href="https://discord.com/users/skulling" target="_blank">discord</a>
@@ -233,8 +236,9 @@ color:black;
 <div class="profile">
 <div class="profile-top">
 <img src="images/zes.webp">
-<div class="name" data-name="zes"></div>
+<div class="name">zes</div>
 <div class="handle"></div>
+<div class="bio" data-bio="life is harder but yk whats even harder? our dicks"></div>
 </div>
 <div class="buttons">
 <a class="profile-btn" href="https://discord.com/users/imbreviate" target="_blank">discord</a>
@@ -244,8 +248,9 @@ color:black;
 <div class="profile">
 <div class="profile-top">
 <img src="images/carnage.webp">
-<div class="name" data-name="carnage"></div>
+<div class="name">carnage</div>
 <div class="handle"></div>
+<div class="bio" data-bio="hi, im cornage"></div>
 </div>
 <div class="buttons">
 <a class="profile-btn" href="https://discord.com/users/brainteasting" target="_blank">discord</a>
@@ -270,7 +275,7 @@ function enterSite(){
   },1000);
 
   startMusic();
-  startTyping();
+  setupHoverTyping();
 }
 
 let bgAudio;
@@ -292,24 +297,42 @@ function startMusic(){
   });
 }
 
-function typeWriter(el,text,speed=65){
-  let i=0;
+function typeWriter(el, text, speed = 25){
+  let i = 0;
+
   function type(){
-    if(i<text.length){
-      el.innerHTML+=text.charAt(i);
+    if(!el.isTyping) return;
+
+    if(i < text.length){
+      el.innerHTML += text.charAt(i);
       i++;
-      setTimeout(type,speed);
+      el.typingTimeout = setTimeout(type, speed);
     }
   }
+
   type();
 }
 
-function startTyping(){
-  document.querySelectorAll(".name").forEach(el=>{
-    typeWriter(el,el.dataset.name);
+function setupHoverTyping(){
+  document.querySelectorAll(".profile").forEach(profile => {
+    const bio = profile.querySelector(".bio");
+    const text = bio.dataset.bio;
+
+    profile.addEventListener("mouseenter", () => {
+      bio.innerHTML = "";
+      bio.isTyping = true;
+      typeWriter(bio, text);
+    });
+
+    profile.addEventListener("mouseleave", () => {
+      bio.isTyping = false;
+      clearTimeout(bio.typingTimeout);
+      bio.innerHTML = "";
+    });
   });
 }
 
+/* SNOW */
 const canvas = document.getElementById("snow");
 const ctx = canvas.getContext("2d");
 
