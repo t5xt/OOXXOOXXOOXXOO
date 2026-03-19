@@ -7,7 +7,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -23,6 +23,9 @@
   --inverse:#090909;
   --glow:0 0 18px rgba(255,255,255,0.18);
   --shadow:0 30px 80px rgba(0,0,0,0.45);
+  --font-body:"IBM Plex Sans", sans-serif;
+  --font-display:"Barlow Condensed", sans-serif;
+  --font-mono:"Consolas","Courier New",monospace;
 }
 
 *{
@@ -39,7 +42,7 @@ body{
   min-height:100vh;
   overflow:hidden;
   color:var(--text);
-  font-family:"Manrope", sans-serif;
+  font-family:var(--font-body);
   background:
     radial-gradient(circle at top left, rgba(255,255,255,0.08), transparent 24%),
     radial-gradient(circle at bottom right, rgba(255,255,255,0.05), transparent 22%),
@@ -219,9 +222,9 @@ body.profiles-visible{
 
 .terminal-title{
   color:var(--muted-strong);
-  font-family:"Rajdhani", sans-serif;
-  font-size:12px;
-  letter-spacing:0.18em;
+  font-family:var(--font-display);
+  font-size:11px;
+  letter-spacing:0.14em;
   text-transform:uppercase;
 }
 
@@ -229,15 +232,15 @@ body.profiles-visible{
   min-height:36px;
   padding:8px 12px;
   border-radius:10px;
-  font-family:"Rajdhani", sans-serif;
-  font-size:11px;
-  letter-spacing:0.16em;
+  font-family:var(--font-display);
+  font-size:10px;
+  letter-spacing:0.12em;
   text-transform:uppercase;
 }
 
 .terminal-body{
   padding:16px;
-  font-family:"Consolas","Courier New",monospace;
+  font-family:var(--font-mono);
 }
 
 .terminal-output{
@@ -302,7 +305,7 @@ body.profiles-visible{
   outline:none;
   background:transparent;
   color:var(--text);
-  font-family:"Consolas","Courier New",monospace;
+  font-family:var(--font-mono);
   font-size:13px;
 }
 
@@ -327,9 +330,9 @@ body.profiles-visible{
 
 .hero-stat strong{
   display:block;
-  font-family:"Rajdhani", sans-serif;
-  font-size:24px;
-  letter-spacing:0.08em;
+  font-family:var(--font-display);
+  font-size:20px;
+  letter-spacing:0.05em;
   text-transform:uppercase;
 }
 
@@ -360,9 +363,9 @@ body.profiles-visible{
   min-height:48px;
   padding:12px 18px;
   border-radius:14px;
-  font-family:"Rajdhani", sans-serif;
-  font-size:13px;
-  letter-spacing:0.18em;
+  font-family:var(--font-display);
+  font-size:11px;
+  letter-spacing:0.12em;
   text-transform:uppercase;
 }
 
@@ -444,9 +447,9 @@ body.profiles-visible{
 }
 
 .topbar-copy h2{
-  font-family:"Rajdhani", sans-serif;
-  font-size:28px;
-  letter-spacing:0.12em;
+  font-family:var(--font-display);
+  font-size:22px;
+  letter-spacing:0.08em;
   text-transform:uppercase;
 }
 
@@ -555,9 +558,9 @@ body.profiles-visible{
 
 .name{
   margin-top:6px;
-  font-family:"Rajdhani", sans-serif;
-  font-size:26px;
-  letter-spacing:0.12em;
+  font-family:var(--font-display);
+  font-size:20px;
+  letter-spacing:0.08em;
   text-transform:uppercase;
 }
 
@@ -589,9 +592,9 @@ body.profiles-visible{
   padding:10px 14px;
   border-radius:12px;
   text-decoration:none;
-  font-family:"Rajdhani", sans-serif;
-  font-size:12px;
-  letter-spacing:0.16em;
+  font-family:var(--font-display);
+  font-size:10px;
+  letter-spacing:0.12em;
   text-transform:uppercase;
 }
 
@@ -1182,7 +1185,7 @@ function createAvatarFallback(name){
       <rect width="120" height="120" rx="24" fill="#111111"/>
       <rect x="6" y="6" width="108" height="108" rx="20" fill="none" stroke="rgba(255,255,255,0.22)"/>
       <text x="50%" y="56%" dominant-baseline="middle" text-anchor="middle"
-        fill="#f5f5f5" font-family="Arial, sans-serif" font-size="42" letter-spacing="4">${initials}</text>
+        fill="#f5f5f5" font-family="Barlow Condensed, Arial, sans-serif" font-size="38" letter-spacing="3">${initials}</text>
     </svg>`;
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
