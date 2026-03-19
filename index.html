@@ -1054,6 +1054,7 @@ C:\lurki.ng></div>
 <script>
 let audioStarted = false;
 let bgAudio = null;
+let fbiAudio = null;
 let hoverTypingReady = false;
 let soundUnavailable = false;
 
@@ -1100,6 +1101,7 @@ function showEnterScreen(){
   profileScreen.setAttribute("aria-hidden", "true");
   enterScreen.classList.remove("fade-out");
   document.body.classList.remove("profiles-visible");
+  stopFbiAudio();
   window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
 }
 
@@ -1138,6 +1140,7 @@ function toggleFbi(){
   closeTerminal();
   fbiPanel.classList.add("show");
   fbiPanel.setAttribute("aria-hidden", "false");
+  playFbiAudio();
 
   if(!fbiLoaded){
     loadFbiWanted();
@@ -1147,6 +1150,7 @@ function toggleFbi(){
 function closeFbi(){
   fbiPanel.classList.remove("show");
   fbiPanel.setAttribute("aria-hidden", "true");
+  stopFbiAudio();
 }
 
 function handleTerminalInput(event){
@@ -1314,6 +1318,28 @@ function handleAudioFailure(){
   soundUnavailable = true;
   soundButton.disabled = true;
   syncSoundButton("Sound unavailable");
+}
+
+function playFbiAudio(){
+  if(!fbiAudio){
+    fbiAudio = new Audio("media/fbi.mp3");
+    fbiAudio.loop = true;
+    fbiAudio.volume = 0.65;
+  }
+
+  fbiAudio.currentTime = 0;
+  fbiAudio.play().catch(() => {
+    // Browser autoplay restrictions may still block playback outside a direct gesture.
+  });
+}
+
+function stopFbiAudio(){
+  if(!fbiAudio){
+    return;
+  }
+
+  fbiAudio.pause();
+  fbiAudio.currentTime = 0;
 }
 
 function toggleSound(){
