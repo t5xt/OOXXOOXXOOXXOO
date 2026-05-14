@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lil Cenat</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #000;
+      --ink: #fff;
+      --muted: #b5b5b5;
+      --panel: #000;
+      --panel-border: #777;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    main {
+      position: relative;
+      display: grid;
+      min-height: 100vh;
+      place-items: center;
+      padding: 1.25rem;
+    }
+
+    .entry {
+      width: min(760px, 100%);
+      text-align: center;
+      transition: opacity 700ms ease, transform 700ms ease, filter 700ms ease;
+    }
+
+    .entry.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.96);
+      filter: blur(10px);
+    }
+
+    h1 {
+      margin: 0 0 1.45rem;
+      font-size: clamp(0.95rem, 2.7vw, 1.55rem);
+      font-weight: 400;
+      line-height: 1.12;
+      letter-spacing: 0;
+      text-transform: lowercase;
+      text-wrap: balance;
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 0 auto;
+      width: min(230px, 100%);
+    }
+
+    .choice {
+      min-height: 42px;
+      border: 1px solid var(--panel-border);
+      border-radius: 0;
+      background: var(--panel);
+      color: var(--ink);
+      cursor: pointer;
+      font: 400 clamp(0.76rem, 2.4vw, 0.9rem) / 1 Inter, ui-sans-serif, system-ui, sans-serif;
+      letter-spacing: 0;
+      text-transform: lowercase;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .choice:hover,
+    .choice:focus-visible {
+      outline: none;
+      transform: translateY(-2px);
+      background: #111;
+      border-color: #fff;
+    }
+
+    .video-stage {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: min(4vw, 2rem);
+      opacity: 0;
+      pointer-events: none;
+      background: #000;
+      transition: opacity 1200ms ease;
+    }
+
+    .video-stage.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    video {
+      width: min(100%, 1120px);
+      max-height: 88vh;
+      border-radius: 0;
+      box-shadow: 0 28px 90px rgba(0, 0, 0, 0.65);
+      background: #050505;
+    }
+
+    .fallback {
+      position: absolute;
+      bottom: 1.25rem;
+      left: 50%;
+      width: min(90vw, 520px);
+      transform: translateX(-50%);
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.45;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 350ms ease;
+    }
+
+    .fallback.visible {
+      opacity: 1;
+    }
+
+    .jumpscare {
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      background: #000;
+    }
+
+    .jumpscare.active {
+      animation: scareFlash 1800ms steps(1, end) forwards, screenShake 70ms linear 24;
+      pointer-events: auto;
+    }
+
+    .face {
+      position: relative;
+      width: min(96vmin, 780px);
+      aspect-ratio: 0.72;
+      border-radius: 46% 46% 40% 40%;
+      background:
+        radial-gradient(ellipse at 34% 36%, #000 0 10%, #fff 11% 13%, transparent 14%),
+        radial-gradient(ellipse at 66% 36%, #000 0 10%, #fff 11% 13%, transparent 14%),
+        radial-gradient(ellipse at 50% 73%, #000 0 17%, #fff 18% 19%, #000 20% 27%, transparent 28%),
+        linear-gradient(90deg, transparent 0 40%, rgba(0, 0, 0, 0.45) 41% 43%, transparent 44% 56%, rgba(0, 0, 0, 0.45) 57% 59%, transparent 60%),
+        radial-gradient(ellipse at 50% 46%, #f7f7f7 0 44%, #bfbfbf 45% 51%, transparent 52%);
+      filter: grayscale(1) contrast(2.4) brightness(1.12);
+      transform: scale(0.03) rotate(-18deg);
+      box-shadow: 0 0 0 999vmax #000;
+    }
+
+    .jumpscare.active .face {
+      animation: lunge 1050ms cubic-bezier(.02,1,.05,1) forwards, jitter 45ms linear 28;
+    }
+
+    .face::before,
+    .face::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: -8%;
+      width: 38%;
+      height: 118%;
+      background:
+        linear-gradient(90deg, #000 0 28%, transparent 29% 35%, #000 36% 58%, transparent 59% 68%, #000 69%),
+        #000;
+      filter: blur(0.5px);
+      transform-origin: 50% 0;
+    }
+
+    .face::before {
+      left: -16%;
+      transform: rotate(6deg);
+    }
+
+    .face::after {
+      right: -16%;
+      transform: rotate(-6deg);
+    }
+
+    .jumpscare.active .face::before {
+      animation: hairLeft 90ms linear 20;
+    }
+
+    .jumpscare.active .face::after {
+      animation: hairRight 90ms linear 20;
+    }
+
+    .quiet-message {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      pointer-events: none;
+      background: #000;
+      color: #fff;
+      font-size: clamp(1.1rem, 4vw, 1.8rem);
+      font-weight: 400;
+      transition: opacity 700ms ease;
+    }
+
+    .quiet-message.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .again {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 6;
+      min-width: 46px;
+      min-height: 46px;
+      border: 1px solid #777;
+      border-radius: 0;
+      background: #000;
+      color: #fff;
+      cursor: pointer;
+      font-size: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 260ms ease;
+    }
+
+    .again.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @keyframes scareFlash {
+      0% { opacity: 0; background: #000; }
+      2% { opacity: 1; background: #fff; }
+      5% { opacity: 1; background: #000; }
+      8% { opacity: 1; background: #fff; }
+      10% { opacity: 1; background: #000; }
+      16% { opacity: 1; background: #fff; }
+      19% { opacity: 1; background: #000; }
+      32% { opacity: 1; background: #fff; }
+      34% { opacity: 1; background: #000; }
+      100% { opacity: 1; background: #000; }
+    }
+
+    @keyframes lunge {
+      0% { transform: scale(0.03) rotate(-18deg); }
+      18% { transform: scale(1.9) rotate(9deg); }
+      45% { transform: scale(1.25) rotate(-5deg); }
+      100% { transform: scale(1.65) rotate(0deg); }
+    }
+
+    @keyframes jitter {
+      0%, 100% { translate: 0 0; }
+      25% { translate: 22px -18px; }
+      50% { translate: -26px 15px; }
+      75% { translate: 18px 24px; }
+    }
+
+    @keyframes screenShake {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(-12px, 8px); }
+      50% { transform: translate(14px, -10px); }
+      75% { transform: translate(-8px, -12px); }
+    }
+
+    @keyframes hairLeft {
+      0%, 100% { transform: rotate(6deg) translateY(0); }
+      50% { transform: rotate(-5deg) translateY(18px); }
+    }
+
+    @keyframes hairRight {
+      0%, 100% { transform: rotate(-6deg) translateY(0); }
+      50% { transform: rotate(5deg) translateY(18px); }
+    }
+
+    @media (max-width: 560px) {
+      .choices {
+        grid-template-columns: 1fr;
+      }
+
+      .choice {
+        min-height: 42px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="entry" id="entry" aria-labelledby="question">
+      <h1 id="question">are you getting back for lil cenat?</h1>
+      <div class="choices">
+        <button class="choice yes" type="button" id="yes">yes</button>
+        <button class="choice no" type="button" id="no">no</button>
+      </div>
+    </section>
+
+    <section class="video-stage" id="videoStage" aria-label="video">
+      <video id="video" src="yes.mp4" controls playsinline preload="metadata"></video>
+      <p class="fallback" id="fallback">The yes.mp4 video could not be loaded.</p>
+    </section>
+
+    <section class="jumpscare" id="jumpscare" aria-hidden="true">
+      <div class="face" aria-hidden="true"></div>
+    </section>
+
+    <section class="quiet-message" id="quietMessage" aria-live="polite">why the fuck would you not get back for him? you're such a gay fucking little cunt</section>
+
+    <button class="again" type="button" id="again" aria-label="restart">R</button>
+  </main>
+
+  <script>
+    const entry = document.querySelector("#entry");
+    const yes = document.querySelector("#yes");
+    const no = document.querySelector("#no");
+    const videoStage = document.querySelector("#videoStage");
+    const video = document.querySelector("#video");
+    const fallback = document.querySelector("#fallback");
+    const jumpscare = document.querySelector("#jumpscare");
+    const quietMessage = document.querySelector("#quietMessage");
+    const again = document.querySelector("#again");
+
+    let audioContext;
+    let scareSources = [];
+
+    function stopScareSound() {
+      scareSources.forEach((source) => {
+        try {
+          source.stop();
+        } catch {
+          // Already stopped.
+        }
+      });
+      scareSources = [];
+    }
+
+    function hideEntry() {
+      entry.classList.add("hidden");
+    }
+
+    function playScareSound() {
+      stopScareSound();
+      audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
+      const now = audioContext.currentTime;
+      const duration = 30;
+      const master = audioContext.createGain();
+      const compressor = audioContext.createDynamicsCompressor();
+
+      compressor.threshold.setValueAtTime(-24, now);
+      compressor.knee.setValueAtTime(16, now);
+      compressor.ratio.setValueAtTime(12, now);
+      compressor.attack.setValueAtTime(0.001, now);
+      compressor.release.setValueAtTime(0.16, now);
+
+      master.gain.setValueAtTime(0.0001, now);
+      master.gain.exponentialRampToValueAtTime(1, now + 0.018);
+      master.gain.setValueAtTime(1, now + 0.05);
+      master.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+      master.connect(compressor);
+      compressor.connect(audioContext.destination);
+
+      const screamFilter = audioContext.createBiquadFilter();
+      screamFilter.type = "bandpass";
+      screamFilter.frequency.setValueAtTime(1800, now);
+      screamFilter.frequency.exponentialRampToValueAtTime(3400, now + 0.22);
+      screamFilter.frequency.setValueAtTime(2200, now + 0.5);
+      screamFilter.frequency.exponentialRampToValueAtTime(900, now + duration);
+      screamFilter.Q.setValueAtTime(18, now);
+      screamFilter.connect(master);
+
+      [1220, 1530, 1890].forEach((frequency, index) => {
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+
+        oscillator.type = index === 1 ? "square" : "sawtooth";
+        oscillator.frequency.setValueAtTime(frequency, now);
+        oscillator.frequency.exponentialRampToValueAtTime(frequency * 1.9, now + 0.08);
+        oscillator.frequency.setValueAtTime(frequency * 1.15, now + 0.5);
+        oscillator.frequency.exponentialRampToValueAtTime(frequency * 0.62, now + duration - 0.4);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.42, now + 0.02 + index * 0.012);
+        gain.gain.setValueAtTime(0.42, now + 0.5);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        oscillator.connect(gain);
+        gain.connect(screamFilter);
+        oscillator.start(now);
+        oscillator.stop(now + duration);
+        scareSources.push(oscillator);
+      });
+
+      const bufferSize = audioContext.sampleRate * duration;
+      const noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+      const samples = noiseBuffer.getChannelData(0);
+
+      for (let i = 0; i < bufferSize; i += 1) {
+        samples[i] = Math.random() * 2 - 1;
+      }
+
+      const noise = audioContext.createBufferSource();
+      const noiseGain = audioContext.createGain();
+      const noiseFilter = audioContext.createBiquadFilter();
+
+      noise.buffer = noiseBuffer;
+      noiseFilter.type = "highpass";
+      noiseFilter.frequency.setValueAtTime(700, now);
+      noiseFilter.frequency.exponentialRampToValueAtTime(120, now + duration - 0.5);
+      noiseGain.gain.setValueAtTime(0.0001, now);
+      noiseGain.gain.exponentialRampToValueAtTime(0.72, now + 0.012);
+      noiseGain.gain.setValueAtTime(0.72, now + 0.5);
+      noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+      noise.connect(noiseFilter);
+      noiseFilter.connect(noiseGain);
+      noiseGain.connect(master);
+      noise.start(now);
+      noise.stop(now + duration);
+      scareSources.push(noise);
+    }
+
+    yes.addEventListener("click", async () => {
+      hideEntry();
+      videoStage.classList.add("active");
+
+      try {
+        await video.play();
+      } catch {
+        video.muted = true;
+        try {
+          await video.play();
+        } catch {
+          fallback.classList.add("visible");
+        }
+      }
+
+      again.classList.add("visible");
+    });
+
+    video.addEventListener("error", () => {
+      fallback.classList.add("visible");
+    });
+
+    no.addEventListener("click", () => {
+      hideEntry();
+      quietMessage.classList.add("active");
+      again.classList.add("visible");
+    });
+
+    again.addEventListener("click", () => {
+      stopScareSound();
+      video.pause();
+      video.currentTime = 0;
+      video.muted = false;
+      entry.classList.remove("hidden");
+      videoStage.classList.remove("active");
+      jumpscare.classList.remove("active");
+      quietMessage.classList.remove("active");
+      fallback.classList.remove("visible");
+      again.classList.remove("visible");
+    });
+  </script>
+</body>
+</html>
